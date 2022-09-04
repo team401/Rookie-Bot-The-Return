@@ -23,5 +23,12 @@ public final class Constants {
     public static final class ArmConstonstants {
         public static final int armMotorID = 4;
         public static final int intakeMotorID = 5;
+
+        public static final double lowerPosition = 100; //UNKNOWN 
+    }
+
+    public static final class ClimbConstants {
+        public static final int climbOneID = 6;
+        public static final int climbTwoID = 7;
     }
 }
