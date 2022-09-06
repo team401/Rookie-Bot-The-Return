@@ -9,15 +9,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-    private static final CANSparkMax climbOne = new CANSparkMax(ClimbConstants.climbOneID, MotorType.kBrushless);
-    private static final CANSparkMax climbTwo = new CANSparkMax(ClimbConstants.climbOneID, MotorType.kBrushless);
+    private static final CANSparkMax leftClimb = new CANSparkMax(ClimbConstants.leftClimbID, MotorType.kBrushless);
+    private static final CANSparkMax rightClimb = new CANSparkMax(ClimbConstants.rightClimbID, MotorType.kBrushless);
 
     private static boolean isAtTop;
     private static boolean isAtBottom;
+
+    private static double leftTop = ClimbConstants.leftUpperLimit;
+    private static double rightTop = ClimbConstants.rightUpperLimit;
     
     public ClimbSubsystem() {
-        climbOne.getEncoder().setPosition(0);
-        climbTwo.getEncoder().setPosition(0);
+        leftClimb.getEncoder().setPosition(0);
+        rightClimb.getEncoder().setPosition(0);
 
         isAtTop = false;
         isAtBottom = false;
@@ -25,41 +28,39 @@ public class ClimbSubsystem extends SubsystemBase {
     
     public void climbUp() {
         if (isAtTop) {
-            climbOne.set(0);
-            climbTwo.set(0);
+            climbStop();
         } else {
-            climbOne.set(1);
-            climbTwo.set(1);
+            leftClimb.set(1); //TODO: adjust climb speed
+            rightClimb.set(1);
         }
     }
 
     public void climbDown() {
         if (isAtBottom) {
-            climbOne.set(0);
-            climbTwo.set(0);
+            climbStop();
         } else {
-            climbOne.set(-1);
-            climbTwo.set(-1);
+            leftClimb.set(-1);
+            rightClimb.set(-1);
         }
     }
 
     public void climbStop() {
-        climbOne.set(0);
-        climbTwo.set(0);
+        leftClimb.set(0);
+        rightClimb.set(0);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Arm Encoder", climbOne.getEncoder().getPosition());
-        SmartDashboard.putNumber("Right Arm Encoder", climbTwo.getEncoder().getPosition());
+        SmartDashboard.putNumber("Left Arm Encoder", leftClimb.getEncoder().getPosition());
+        SmartDashboard.putNumber("Right Arm Encoder", rightClimb.getEncoder().getPosition());
 
-        if (climbOne.getEncoder().getPosition() > 10 || climbTwo.getEncoder().getPosition() > 10) {
+        if (leftClimb.getEncoder().getPosition() > leftTop || rightClimb.getEncoder().getPosition() > rightTop) {
             isAtTop = true;
         } else {
             isAtTop = false; 
         }
 
-        if (climbOne.getEncoder().getPosition() < 1 || climbTwo.getEncoder().getPosition() < 1) {
+        if (leftClimb.getEncoder().getPosition() <= 0 || rightClimb.getEncoder().getPosition() <= 0) {
             isAtBottom = true;
         } else {
             isAtBottom = false;

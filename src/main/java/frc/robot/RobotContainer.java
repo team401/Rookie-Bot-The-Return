@@ -59,7 +59,7 @@ public class RobotContainer {
 
         //Intake
         new JoystickButton(gamepad, Button.kB.value)
-            .whileHeld(new InstantCommand(arm::intake));
+            .whileHeld(arm::intake);
         
         //Raise Intake
         new JoystickButton(gamepad, Button.kA.value)
