@@ -17,8 +17,6 @@ public class MoveArm extends CommandBase {
 
     @Override
     public void execute() {
-        arm.runArmPID(setpoint); //TODO: learn how this works
+        arm.runArmPID(setpoint);
     }
-
-
 }

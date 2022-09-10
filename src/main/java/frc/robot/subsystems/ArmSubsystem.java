@@ -1,37 +1,39 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ArmConstonstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax armMotor = new CANSparkMax(ArmConstonstants.armMotorID, MotorType.kBrushless);
     private final TalonSRX intakeMotor = new TalonSRX(ArmConstonstants.intakeMotorID);
 
-    private final SparkMaxPIDController armController = armMotor.getPIDController();
-    AccelStrategy accelStrategy = AccelStrategy.kTrapezoidal;
+    private final RelativeEncoder armEncoder = armMotor.getEncoder();
+
+    private final ProfiledPIDController armController = new ProfiledPIDController(
+        0.0, 0.0, 0.0, //TODO: Tune
+        new TrapezoidProfile.Constraints(
+            Units.rotationsPerMinuteToRadiansPerSecond(30) * ArmConstonstants.armGearRatio,
+            Units.rotationsPerMinuteToRadiansPerSecond(60)));
+
 
     public ArmSubsystem() {
-        // invert motors
-        // set up PID
-        armMotor.getEncoder().setPosition(0.0);
+        armMotor.setInverted(false);
         armMotor.setIdleMode(IdleMode.kBrake);
-        armController.setFeedbackDevice(armMotor.getEncoder());
 
-        
-        armController.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal, 0);
-        armController.setSmartMotionAllowedClosedLoopError(0.01, 0);
-        armController.setSmartMotionMaxAccel(30, 0);
-        armController.setSmartMotionMaxVelocity(10, 0);
+        armEncoder.setPosition(0);
+        armEncoder.setPositionConversionFactor(ArmConstonstants.armGearRatio);
+
+        armController.setTolerance(0.01);
     }
 
     public void intake() {
@@ -47,6 +49,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void runArmPID(double setPointRad) {
-        armController.setReference(setPointRad, ControlType.kPosition);
+        double output = armController.calculate(armEncoder.getPosition(), setPointRad);
+
+        //TODO: Feedforward
+
+        armMotor.set(output);
     }
 }
