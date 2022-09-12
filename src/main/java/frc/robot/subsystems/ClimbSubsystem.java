@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -9,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-    private static final CANSparkMax leftClimb = new CANSparkMax(ClimbConstants.leftClimbID, MotorType.kBrushless);
-    private static final CANSparkMax rightClimb = new CANSparkMax(ClimbConstants.rightClimbID, MotorType.kBrushless);
+    private static final WPI_VictorSPX leftClimb = new WPI_VictorSPX(ClimbConstants.leftClimbID);
+    private static final WPI_VictorSPX rightClimb = new WPI_VictorSPX(ClimbConstants.rightClimbID);
 
     private static boolean isAtTop;
     private static boolean isAtBottom;
@@ -19,29 +20,33 @@ public class ClimbSubsystem extends SubsystemBase {
     private static double rightTop = ClimbConstants.rightUpperLimit;
     
     public ClimbSubsystem() {
-        leftClimb.getEncoder().setPosition(0);
-        rightClimb.getEncoder().setPosition(0);
+        //leftClimb.getEncoder().setPosition(0);
+        //rightClimb.getEncoder().setPosition(0);
 
-        isAtTop = false;
-        isAtBottom = false;
+        //isAtTop = false;
+        //isAtBottom = false;
     }
     
     public void climbUp() {
-        if (isAtTop) {
+        leftClimb.set(1);
+        rightClimb.set(1);
+        /*if (isAtTop) {
             climbStop();
         } else {
             leftClimb.set(1); //TODO: adjust climb speed
             rightClimb.set(1);
-        }
+        }*/
     }
 
     public void climbDown() {
-        if (isAtBottom) {
+        leftClimb.set(-1);
+        rightClimb.set(-1);
+        /*if (isAtBottom) {
             climbStop();
         } else {
             leftClimb.set(-1);
             rightClimb.set(-1);
-        }
+        }*/
     }
 
     public void climbStop() {
@@ -51,7 +56,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Arm Encoder", leftClimb.getEncoder().getPosition());
+        /*SmartDashboard.putNumber("Left Arm Encoder", leftClimb.getEncoder().getPosition());
         SmartDashboard.putNumber("Right Arm Encoder", rightClimb.getEncoder().getPosition());
 
         if (leftClimb.getEncoder().getPosition() > leftTop || rightClimb.getEncoder().getPosition() > rightTop) {
@@ -64,6 +69,6 @@ public class ClimbSubsystem extends SubsystemBase {
             isAtBottom = true;
         } else {
             isAtBottom = false;
-        }
+        }*/
     }
 }
