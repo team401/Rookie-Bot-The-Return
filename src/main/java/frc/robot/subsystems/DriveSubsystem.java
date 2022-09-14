@@ -23,6 +23,14 @@ public class DriveSubsystem extends SubsystemBase {
         //invert motors if necessary
     }
 
+    /**
+     * Drives the robot as specified.
+     * 
+     * This Javadoc? Unecessary?? What could you possibly be talking about?
+     * 
+     * @param forward forward speed
+     * @param rotation rotation value
+     */
     public void drive(double forward, double rotation){
         drive.arcadeDrive(forward, rotation);
     }
