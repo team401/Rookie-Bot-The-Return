@@ -43,6 +43,7 @@ public class RobotContainer {
                 () -> leftStick.getRawAxis(1),
                 () -> rightStick.getRawAxis(0)));
 
+        arm.setDefaultCommand(new MoveArm(arm, 0));
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -59,7 +60,8 @@ public class RobotContainer {
 
         //Intake
         new JoystickButton(gamepad, Button.kB.value)
-            .whileHeld(arm::intake);
+            .whenPressed(arm::intake)
+            .whenReleased(arm::stopIntake);
         
         //Raise Intake
         new JoystickButton(gamepad, Button.kA.value)
