@@ -59,16 +59,26 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         //Intake
-        new JoystickButton(gamepad, Button.kB.value)
+        new JoystickButton(gamepad, Button.kLeftBumper.value) //change to trigger maybe?
             .whenPressed(arm::intake)
             .whenReleased(arm::stopIntake);
+
+        //Shoot
+        new JoystickButton(gamepad, Button.kRightBumper.value) //change to trigger maybe?
+            .whenPressed(arm::shoot)
+            .whenReleased(arm::stop);
+
+        //Spit
+        new JoystickButton(gamepad, Button.kStart.value)
+            .whenPressed(arm::spit)
+            .whenReleased(arm::stop);
         
         //Raise Intake
         new JoystickButton(gamepad, Button.kA.value)
             .whenPressed(new MoveArm(arm, 0));
 
         //Lower Intake
-        new JoystickButton(gamepad, Button.kX.value)
+        new JoystickButton(gamepad, Button.kB.value)
             .whenPressed(new MoveArm(arm, Constants.ArmConstonstants.lowerPosition));
 
         // Raise climbers

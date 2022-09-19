@@ -26,11 +26,23 @@ public final class Constants {
         public static final int armMotorID = 4;
         public static final int intakeMotorID = 5;
 
+        /*
+        
+        ALL NEED TUNING
+        
+        */
+
+        public static final double shooterSpeed = 0.5;
+
         public static final double armGearRatio = 1; //TODO: Find this
 
         public static final ArmFeedforward armFeedForward = new ArmFeedforward(1, 1, 1, 1); //TODO: Find this
 
         public static final double lowerPosition = 100; //TODO: Tune this
+
+        public static final double acceleration = 5;
+
+        public static final double velocity = 20;
     }
 
     public static final class ClimbConstants {

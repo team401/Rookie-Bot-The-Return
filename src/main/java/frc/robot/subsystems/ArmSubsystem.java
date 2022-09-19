@@ -34,11 +34,15 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void intake() {
-        intakeMotor.set(ControlMode.PercentOutput, 0.5);
+        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
     }
     
     public void spit() {
-        intakeMotor.set(ControlMode.PercentOutput, -0.5);
+        intakeMotor.set(ControlMode.PercentOutput, -ArmConstants.shooterSpeed);
+    }
+
+    public void shoot() {
+        intakeMotor.set(ControlMode.PercentOutput, -ArmConstants.shooterSpeed / 2);
     }
 
     public void stopIntake() {
@@ -46,9 +50,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void runArmPID(double setPointRad) {
-        double output = armController.calculate(armEncoder.getPosition(), setPointRad);
+        //double output = armController.calculate(armEncoder.getPosition(), setPointRad);
 
-        //TODO: Feedforward
+        //TODO: Feedforward - Hopefully works :)
+        double output = armFeedForward.calculate(setPointRad, ArmConstants.acceleration, ArmConstants.velocity);
 
         armMotor.set(output);
     }
