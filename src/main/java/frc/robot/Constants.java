@@ -22,7 +22,7 @@ public final class Constants {
         public static final int backRightID = 3;
     }
 
-    public static final class ArmConstonstants {
+    public static final class ArmConstants {
         public static final int armMotorID = 4;
         public static final int intakeMotorID = 5;
 

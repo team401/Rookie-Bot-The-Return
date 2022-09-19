@@ -61,7 +61,7 @@ public class RobotContainer {
         //Intake
         new JoystickButton(gamepad, Button.kLeftBumper.value) //change to trigger maybe?
             .whenPressed(arm::intake)
-            .whenReleased(arm::stopIntake);
+            .whenReleased(arm::stop);
 
         //Shoot
         new JoystickButton(gamepad, Button.kRightBumper.value) //change to trigger maybe?
@@ -79,7 +79,7 @@ public class RobotContainer {
 
         //Lower Intake
         new JoystickButton(gamepad, Button.kB.value)
-            .whenPressed(new MoveArm(arm, Constants.ArmConstonstants.lowerPosition));
+            .whenPressed(new MoveArm(arm, Constants.ArmConstants.lowerPosition));
 
         // Raise climbers
         new JoystickButton(gamepad, Button.kX.value)
