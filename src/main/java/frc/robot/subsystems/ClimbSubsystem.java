@@ -10,48 +10,53 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-    private static final WPI_VictorSPX leftClimb = new WPI_VictorSPX(ClimbConstants.leftClimbID);
-    private static final WPI_VictorSPX rightClimb = new WPI_VictorSPX(ClimbConstants.rightClimbID);
+    //private static final WPI_VictorSPX leftClimb = new WPI_VictorSPX(ClimbConstants.leftClimbID);
+    //private static final WPI_VictorSPX rightClimb = new WPI_VictorSPX(ClimbConstants.rightClimbID);
+
+    private static final CANSparkMax climbArm = new CANSparkMax(ClimbConstants.climbArmID);
 
     private static boolean isAtTop;
     private static boolean isAtBottom;
 
-    private static double leftTop = ClimbConstants.leftUpperLimit;
-    private static double rightTop = ClimbConstants.rightUpperLimit;
+    //private static double leftTop = ClimbConstants.leftUpperLimit;
+    //private static double rightTop = ClimbConstants.rightUpperLimit;
+
+    private static double topStop = ClimbConstants.upperLimit;
+    private static double bottomStop = ClimbConstants.lowerLimit;
     
     public ClimbSubsystem() {
-        //leftClimb.getEncoder().setPosition(0);
-        //rightClimb.getEncoder().setPosition(0);
-
-        //isAtTop = false;
-        //isAtBottom = false;
+        climbArm.getEncoder().setPosition(0);
+        
+        isAtTop = false;
+        isAtBottom = false;
     }
     
     public void climbUp() {
-        leftClimb.set(1);
-        rightClimb.set(1);
-        /*if (isAtTop) {
+        //leftClimb.set(1);
+        //rightClimb.set(1);
+        if (isAtTop) {
             climbStop();
         } else {
             leftClimb.set(1); //TODO: adjust climb speed
             rightClimb.set(1);
-        }*/
+        }
     }
 
     public void climbDown() {
-        leftClimb.set(-1);
-        rightClimb.set(-1);
-        /*if (isAtBottom) {
+        //leftClimb.set(-1);
+        //rightClimb.set(-1);
+        if (isAtBottom) {
             climbStop();
         } else {
             leftClimb.set(-1);
             rightClimb.set(-1);
-        }*/
+        }
     }
 
     public void climbStop() {
-        leftClimb.set(0);
-        rightClimb.set(0);
+        //leftClimb.set(0);
+        //rightClimb.set(0);
+        climbArm.set(0);
     }
 
     @Override
@@ -70,5 +75,19 @@ public class ClimbSubsystem extends SubsystemBase {
         } else {
             isAtBottom = false;
         }*/
+        SmartDashboard.putNumber("Arm Encoder", climbArm.getEncoder.getPosition());
+
+        if (climbArm.getEncoder().getPosition() > topStop) {
+            isAtTop = true;
+        } else {
+            isAtTop = false;
+        }
+        if (climbArm.getEncoder().getPosition() <= bottomStop) {
+            isAtBottom = true;
+        } else {
+            isAtBottom = false;
+        }
+        SmartDashboard.putBoolean("Is At Top", isAtTop);
+        SmartDashboard.putBoolean("Is At Bottom", isAtBottom);
     }
 }
