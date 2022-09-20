@@ -48,8 +48,13 @@ public final class Constants {
     public static final class ClimbConstants {
         public static final int leftClimbID = 6;
         public static final int rightClimbID = 7;
+
+        public static final int climbArmID = 6;
         
         public static final double leftUpperLimit = 100; //TODO: Tune this
         public static final double rightUpperLimit = 100; //TODO: Tune this
+
+        public static final double upperLimit = 100;
+        public static final double lowerLimit = 0;
     }
 }
