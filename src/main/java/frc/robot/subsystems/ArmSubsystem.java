@@ -1,10 +1,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ArmConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -37,16 +37,17 @@ public class ArmSubsystem extends SubsystemBase {
         armController.setTolerance(0.01);
     }
 
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Arm encoder location", armEncoder.getPosition());
+    }
+    
     public void intake() {
-        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
+        intakeMotor.set(ControlMode.PercentOutput, -ArmConstants.shooterSpeed);
     }
     
     public void spit() {
-        intakeMotor.set(ControlMode.PercentOutput, -ArmConstants.shooterSpeed);
-    }
-
-    public void shoot() {
-        intakeMotor.set(ControlMode.PercentOutput, -ArmConstants.shooterSpeed / 2);
+        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
     }
 
     public void stop() {
@@ -54,11 +55,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void runArmPID(double setPointRad) {
-        //double output = armController.calculate(armEncoder.getPosition(), setPointRad);
+        double feedForward = ArmConstants.armFeedForward.calculate(setPointRad, 0);
 
-        //TODO: Feedforward - Hopefully works :)
-        double output = ArmConstants.armFeedForward.calculate(setPointRad, ArmConstants.acceleration, ArmConstants.velocity);
+        double pid = armController.calculate(Units.rotationsToRadians(armEncoder.getPosition()), setPointRad);
 
-        armMotor.set(output);
+        armMotor.set(feedForward + pid);
     }
 }

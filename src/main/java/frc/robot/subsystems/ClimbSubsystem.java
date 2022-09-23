@@ -13,7 +13,7 @@ public class ClimbSubsystem extends SubsystemBase {
     //private static final WPI_VictorSPX leftClimb = new WPI_VictorSPX(ClimbConstants.leftClimbID);
     //private static final WPI_VictorSPX rightClimb = new WPI_VictorSPX(ClimbConstants.rightClimbID);
 
-    private static final CANSparkMax climbArm = new CANSparkMax(ClimbConstants.climbArmID);
+    private static final CANSparkMax climbArm = new CANSparkMax(ClimbConstants.climbArmID, MotorType.kBrushless);
 
     private static boolean isAtTop;
     private static boolean isAtBottom;
@@ -37,8 +37,7 @@ public class ClimbSubsystem extends SubsystemBase {
         if (isAtTop) {
             climbStop();
         } else {
-            leftClimb.set(1); //TODO: adjust climb speed
-            rightClimb.set(1);
+            climbArm.set(1);
         }
     }
 
@@ -48,8 +47,7 @@ public class ClimbSubsystem extends SubsystemBase {
         if (isAtBottom) {
             climbStop();
         } else {
-            leftClimb.set(-1);
-            rightClimb.set(-1);
+            climbArm.set(-1);
         }
     }
 
@@ -75,7 +73,7 @@ public class ClimbSubsystem extends SubsystemBase {
         } else {
             isAtBottom = false;
         }*/
-        SmartDashboard.putNumber("Arm Encoder", climbArm.getEncoder.getPosition());
+        SmartDashboard.putNumber("Arm Encoder", climbArm.getEncoder().getPosition());
 
         if (climbArm.getEncoder().getPosition() > topStop) {
             isAtTop = true;
