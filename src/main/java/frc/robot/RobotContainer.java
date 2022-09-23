@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.ArmSubsystem;
@@ -43,7 +45,7 @@ public class RobotContainer {
                 () -> leftStick.getRawAxis(1),
                 () -> rightStick.getRawAxis(0)));
 
-        arm.setDefaultCommand(new MoveArm(arm, 0));
+        arm.setDefaultCommand(new InstantCommand(() -> arm.runArmPID(0)));
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -59,36 +61,29 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         //Intake
-        new JoystickButton(gamepad, Button.kLeftBumper.value) //change to trigger maybe?
-            .whenPressed(arm::intake)
-            .whenReleased(arm::stop);
-
-        //Shoot
-        new JoystickButton(gamepad, Button.kRightBumper.value) //change to trigger maybe?
-            .whenPressed(arm::shoot)
+        new JoystickButton(gamepad, Button.kB.value) //change to trigger maybe?
+            .whileHeld(arm::intake)
             .whenReleased(arm::stop);
 
         //Spit
-        new JoystickButton(gamepad, Button.kStart.value)
-            .whenPressed(arm::spit)
+        new JoystickButton(gamepad, Button.kY.value)
+            .whileHeld(arm::spit)
             .whenReleased(arm::stop);
         
         //Raise Intake
-        new JoystickButton(gamepad, Button.kA.value)
-            .whenPressed(new MoveArm(arm, 0));
+        new JoystickButton(gamepad, Button.kRightBumper.value)
+            .whileHeld(() -> arm.runArmPID(0));
+        
+        // INTAKE LOWERS AUTOMAGICALLY
 
-        //Lower Intake
-        new JoystickButton(gamepad, Button.kB.value)
-            .whenPressed(new MoveArm(arm, Constants.ArmConstants.lowerPosition));
-
-        // Raise climbers
-        new JoystickButton(gamepad, Button.kX.value)
-            .whenPressed(climber::climbUp)
+        // Raise climbers - should be D-pad up
+        new POVButton(gamepad, 0)
+            .whenHeld(new InstantCommand(climber::climbUp))
             .whenReleased(climber::climbStop);
         
-        // Lower climbers
-        new JoystickButton(gamepad, Button.kY.value)
-            .whenPressed(climber::climbDown)
+        // Lower climbers - should be D-pad down
+        new POVButton(gamepad, 180)
+            .whenHeld(new InstantCommand(climber::climbDown))
             .whenReleased(climber::climbStop);
     }
 
