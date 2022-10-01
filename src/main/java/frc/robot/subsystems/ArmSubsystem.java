@@ -1,11 +1,6 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.ArmConstants;
+import com.revrobotics.CANSparkMax;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -14,51 +9,44 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class ArmSubsystem extends SubsystemBase {
-    private final CANSparkMax armMotor = new CANSparkMax(ArmConstants.armMotorID, MotorType.kBrushless);
-    private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(ArmConstants.intakeMotorID);
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
 
-    private final RelativeEncoder armEncoder = armMotor.getEncoder();
+public class ArmSubsystem extends ProfiledPIDSubsystem {
 
-    private final ProfiledPIDController armController = new ProfiledPIDController(
-        0.0, 0.0, 0.0, //TODO: Tune
-        new TrapezoidProfile.Constraints(
-            Units.rotationsPerMinuteToRadiansPerSecond(30) * ArmConstants.armGearRatio,
-            Units.rotationsPerMinuteToRadiansPerSecond(60)));
-
+    private final CANSparkMax motor = new CANSparkMax(ArmConstants.armMotorID, MotorType.kBrushless);
+    private final RelativeEncoder encoder = motor.getEncoder();
 
     public ArmSubsystem() {
-        armMotor.setInverted(false);
-        armMotor.setIdleMode(IdleMode.kBrake);
 
-        armEncoder.setPosition(0);
-        armEncoder.setPositionConversionFactor(ArmConstants.armGearRatio);
+        super(new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0)),
+        0);
 
-        armController.setTolerance(0.01);
+        motor.setInverted(false);
+        motor.setIdleMode(IdleMode.kCoast);
+
+        encoder.setPosition(0);
+        encoder.setPositionConversionFactor(ArmConstants.armGearRatio);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Arm encoder location", armEncoder.getPosition());
-    }
-    
-    public void intake() {
-        intakeMotor.set(ControlMode.PercentOutput, -ArmConstants.shooterSpeed);
-    }
-    
-    public void spit() {
-        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
+        SmartDashboard.putNumber("ArmPosition", encoder.getPosition());
     }
 
-    public void stop() {
-        intakeMotor.set(ControlMode.PercentOutput, 0);
+    @Override
+    public void useOutput(double output, State setpoint) {
+        motor.set(output);
     }
 
-    public void runArmPID(double setPointRad) {
-        double feedForward = ArmConstants.armFeedForward.calculate(setPointRad, 0);
-
-        double pid = armController.calculate(Units.rotationsToRadians(armEncoder.getPosition()), setPointRad);
-
-        armMotor.set(feedForward + pid);
+    @Override
+    public double getMeasurement() {
+        return encoder.getPosition();
     }
 }

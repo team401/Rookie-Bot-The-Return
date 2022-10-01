@@ -1,0 +1,24 @@
+package frc.robot.subsystems;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
+
+public class IntakeSubsystem extends SubsystemBase {
+
+    private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(ArmConstants.intakeMotorID);
+
+    public void intake() {
+        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
+    }
+    
+    public void shoot() {
+        intakeMotor.set(ControlMode.PercentOutput, -1);
+    }
+
+    public void stop() {
+        intakeMotor.set(ControlMode.PercentOutput, 0);
+    }
+    
+}

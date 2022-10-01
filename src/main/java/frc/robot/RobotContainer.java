@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.commands.MoveArm;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -31,7 +31,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveSubsystem drive = new DriveSubsystem();
     private final ArmSubsystem arm = new ArmSubsystem();
-    private final ClimbSubsystem climber = new ClimbSubsystem();
+    private final IntakeSubsystem intake = new IntakeSubsystem();
+    private final ClimbSubsystem climb = new ClimbSubsystem();
 
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);
@@ -45,7 +46,10 @@ public class RobotContainer {
                 () -> leftStick.getRawAxis(1),
                 () -> rightStick.getRawAxis(0)));
 
-        arm.setDefaultCommand(new InstantCommand(() -> arm.runArmPID(0)));
+        //arm.setGoal(ArmConstants.raisedPosition);
+        //arm.enable();
+
+        //arm.setDefaultCommand(new InstantCommand(() -> arm.runArmPID(0)));
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -61,30 +65,32 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         //Intake
-        new JoystickButton(gamepad, Button.kB.value) //change to trigger maybe?
-            .whileHeld(arm::intake)
-            .whenReleased(arm::stop);
+        new JoystickButton(gamepad, Button.kB.value)
+            .whenPressed(intake::intake)
+            .whenReleased(intake::stop);
 
-        //Spit
+        // Shoot
         new JoystickButton(gamepad, Button.kY.value)
-            .whileHeld(arm::spit)
-            .whenReleased(arm::stop);
+            .whenPressed(intake::shoot)
+            .whenReleased(intake::stop);
         
-        //Raise Intake
-        new JoystickButton(gamepad, Button.kRightBumper.value)
-            .whileHeld(() -> arm.runArmPID(0));
-        
-        // INTAKE LOWERS AUTOMAGICALLY
+        // Raise Intake
+        /*new POVButton(gamepad, 0)
+            .whenPressed(() -> arm.setGoal(ArmConstants.raisedPosition), arm);
 
-        // Raise climbers - should be D-pad up
-        new POVButton(gamepad, 0)
-            .whenHeld(new InstantCommand(climber::climbUp))
-            .whenReleased(climber::climbStop);
-        
-        // Lower climbers - should be D-pad down
+        // Lower Intake
         new POVButton(gamepad, 180)
-            .whenHeld(new InstantCommand(climber::climbDown))
-            .whenReleased(climber::climbStop);
+            .whenPressed(() -> arm.setGoal(ArmConstants.loweredPosition), arm);*/
+
+        // Raise Climber
+        /*new POVButton(gamepad, 0)
+            .whenPressed(climb::climbUp)
+            .whenReleased(climb::climbStop);
+
+        // Raise Climber
+        new POVButton(gamepad, 180)
+            .whenPressed(climb::climbDown)
+            .whenReleased(climb::climbStop);*/
     }
 
     /**

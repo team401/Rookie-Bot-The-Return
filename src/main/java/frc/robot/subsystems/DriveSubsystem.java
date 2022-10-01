@@ -20,7 +20,10 @@ public class DriveSubsystem extends SubsystemBase {
     private final DifferentialDrive drive = new DifferentialDrive(left, right);
 
     public DriveSubsystem() {
-        //invert motors if necessary
+        left.setInverted(true);
+        //frontLeft.setInverted(true);
+        // backLeft.setInverted(true);
+        
     }
 
     /**
@@ -32,6 +35,6 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rotation rotation value
      */
     public void drive(double forward, double rotation){
-        drive.arcadeDrive(forward, rotation);
+        drive.arcadeDrive(forward, -rotation);
     }
 }

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -16,25 +17,31 @@ import edu.wpi.first.math.controller.ArmFeedforward;
  */
 public final class Constants {
     public static final class DrivetrainConstants {
-        public static final int frontLeftID = 0;
-        public static final int frontRightID = 1;
+        public static final int frontLeftID = 1;
         public static final int backLeftID = 2;
-        public static final int backRightID = 3;
+        public static final int frontRightID = 3;
+        public static final int backRightID = 4;
     }
 
     public static final class ArmConstants {
-        public static final int armMotorID = 4;
-        public static final int intakeMotorID = 5;
+        public static final int armMotorID = 1;
+        public static final int intakeMotorID = 32;
 
         //TODO: Tune
 
+        public static final double controllerTolerance = 0.01;
+
         public static final double shooterSpeed = 0.5;
 
-        public static final double armGearRatio = 1;
+        public static final double maxVelocity = Units.rotationsPerMinuteToRadiansPerSecond(30);
+        public static final double maxAccel = maxVelocity * 4;
+
+        public static final double armGearRatio = 1.0 / 60;
 
         public static final ArmFeedforward armFeedForward = new ArmFeedforward(0, 0, 0, 0);
 
-        public static final double lowerPosition = 100;
+        public static final double loweredPosition = 0;
+        public static final double raisedPosition = 100;
     }
 
     public static final class ClimbConstants {
@@ -44,11 +51,9 @@ public final class Constants {
         public static final int climbArmID = 6;
         
         //TODO: Tune
+        public static final double climbVolts = 4;
 
-        public static final double leftUpperLimit = 100;
-        public static final double rightUpperLimit = 100;
-
-        public static final double upperLimit = 100;
-        public static final double lowerLimit = 0;
+        public static final double maxPosition = 100;
+        public static final double minPosition = 5;
     }
 }
