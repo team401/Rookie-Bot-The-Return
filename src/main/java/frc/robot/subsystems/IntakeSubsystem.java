@@ -10,11 +10,11 @@ public class IntakeSubsystem extends SubsystemBase {
     private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(ArmConstants.intakeMotorID);
 
     public void intake() {
-        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
+        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.intakeSpeed);
     }
     
     public void shoot() {
-        intakeMotor.set(ControlMode.PercentOutput, -1);
+        intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
     }
 
     public void stop() {

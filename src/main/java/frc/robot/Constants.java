@@ -27,21 +27,20 @@ public final class Constants {
         public static final int armMotorID = 1;
         public static final int intakeMotorID = 32;
 
-        //TODO: Tune
-
         public static final double controllerTolerance = 0.01;
 
-        public static final double shooterSpeed = 0.5;
+        public static final double shooterSpeed = 1;
+        public static final double intakeSpeed = 0.5;
 
-        public static final double maxVelocity = Units.rotationsPerMinuteToRadiansPerSecond(30);
-        public static final double maxAccel = maxVelocity * 4;
+        public static final double maxVelocity = 0.6;
+        public static final double maxAccel = 0.6;
 
-        public static final double armGearRatio = 1.0 / 60;
+        public static final double armGearRatio = 1.0 / 75;
 
-        public static final ArmFeedforward armFeedForward = new ArmFeedforward(0, 0, 0, 0);
+        public static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0);
 
-        public static final double loweredPosition = 0;
-        public static final double raisedPosition = 100;
+        public static final double loweredPosition = 0.01;
+        public static final double raisedPosition = 0.31;
     }
 
     public static final class ClimbConstants {
@@ -51,9 +50,12 @@ public final class Constants {
         public static final int climbArmID = 6;
         
         //TODO: Tune
-        public static final double climbVolts = 4; //Should maaaaybe be a percentage, because SparkMaxes only accept percentages
+        public static final double climbVolts = 4;
 
         public static final double maxPosition = 100;
         public static final double minPosition = 5;
+
+        public static final double maxVelocity = 1;
+        public static final double maxAccel = maxVelocity * 2;
     }
 }

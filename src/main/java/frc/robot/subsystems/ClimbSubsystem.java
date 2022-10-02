@@ -1,21 +1,26 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimbSubsystem extends SubsystemBase {
 
-    private final CANSparkMax arm = new CANSparkMax(ClimbConstants.climbArmID, MotorType.kBrushless);
-
-    private final RelativeEncoder encoder = arm.getEncoder();
+    private final CANSparkMax motor = new CANSparkMax(ClimbConstants.climbArmID, MotorType.kBrushless);
+    private final RelativeEncoder encoder = motor.getEncoder();
 
     private int lastOutput = 0; //Marks the last commanded direction of movement
+    
+    private double setpoint;
 
     public ClimbSubsystem() {
-        arm.getEncoder().setPosition(ClimbConstants.minPosition);
+        motor.getEncoder().setPosition(0);
     }
 
     @Override
@@ -23,23 +28,18 @@ public class ClimbSubsystem extends SubsystemBase {
 
         // If we go out of bounds and are still trying to move, stop
         if (encoder.getPosition() > ClimbConstants.maxPosition && lastOutput > 0)
-            arm.set(0);
+            motor.set(0);
         else if (encoder.getPosition() < ClimbConstants.minPosition && lastOutput < 0)
-            arm.set(0);
+            motor.set(0);
+
+        SmartDashboard.putNumber("Climber location", encoder.getPosition());
     }
 
-    public void climbUp() {
-        lastOutput = 1;
-        arm.set(ClimbConstants.climbVolts / 12);
+    public double getPosition() {
+        return encoder.getPosition();
     }
 
-    public void climbDown() {
-        lastOutput = -1;
-        arm.set(-ClimbConstants.climbVolts / 12);
-    }
-
-    public void climbStop() {
-        lastOutput = 0;
-        arm.set(0);
+    public void setPercent(double percent) {
+        motor.set(percent);
     }
 }

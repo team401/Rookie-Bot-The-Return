@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.OperatorControl;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -45,9 +47,6 @@ public class RobotContainer {
         drive.setDefaultCommand(new OperatorControl(drive,
                 () -> leftStick.getRawAxis(1),
                 () -> rightStick.getRawAxis(0)));
-
-        //arm.setGoal(ArmConstants.raisedPosition);
-        //arm.enable();
         
         // Configure the button bindings
         configureButtonBindings();
@@ -74,12 +73,16 @@ public class RobotContainer {
             .whenReleased(intake::stop);
         
         // Raise Intake
-        /*new POVButton(gamepad, 0)
-            .whenPressed(() -> arm.setGoal(ArmConstants.raisedPosition), arm);
+        new POVButton(gamepad, 0)
+            .whenPressed(new MoveArm(arm, ArmConstants.raisedPosition));
 
         // Lower Intake
         new POVButton(gamepad, 180)
-            .whenPressed(() -> arm.setGoal(ArmConstants.loweredPosition), arm);*/
+            .whenPressed(new MoveArm(arm, ArmConstants.loweredPosition));
+
+        // Reset Arm
+        new JoystickButton(gamepad, Button.kStart.value)
+            .whenPressed(() -> arm.reset(), arm);
 
         // Raise Climber
         /*new POVButton(gamepad, 0)
