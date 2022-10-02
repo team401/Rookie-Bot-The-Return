@@ -48,8 +48,7 @@ public class RobotContainer {
 
         //arm.setGoal(ArmConstants.raisedPosition);
         //arm.enable();
-
-        //arm.setDefaultCommand(new InstantCommand(() -> arm.runArmPID(0)));
+        
         // Configure the button bindings
         configureButtonBindings();
     }

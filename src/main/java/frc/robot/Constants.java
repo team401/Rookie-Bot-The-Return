@@ -51,7 +51,7 @@ public final class Constants {
         public static final int climbArmID = 6;
         
         //TODO: Tune
-        public static final double climbVolts = 4;
+        public static final double climbVolts = 4; //Should maaaaybe be a percentage, because SparkMaxes only accept percentages
 
         public static final double maxPosition = 100;
         public static final double minPosition = 5;

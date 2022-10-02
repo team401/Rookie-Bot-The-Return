@@ -12,37 +12,34 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private final RelativeEncoder encoder = arm.getEncoder();
 
-    private double lastOutput = 0;
+    private int lastOutput = 0; //Marks the last commanded direction of movement
 
     public ClimbSubsystem() {
-
         arm.getEncoder().setPosition(ClimbConstants.minPosition);
-        
     }
 
     @Override
     public void periodic() {
 
+        // If we go out of bounds and are still trying to move, stop
         if (encoder.getPosition() > ClimbConstants.maxPosition && lastOutput > 0)
             arm.set(0);
         else if (encoder.getPosition() < ClimbConstants.minPosition && lastOutput < 0)
             arm.set(0);
-
     }
 
     public void climbUp() {
         lastOutput = 1;
-        arm.set(ClimbConstants.climbVolts);
+        arm.set(ClimbConstants.climbVolts / 12);
     }
 
     public void climbDown() {
         lastOutput = -1;
-        arm.set(-ClimbConstants.climbVolts);
+        arm.set(-ClimbConstants.climbVolts / 12);
     }
 
     public void climbStop() {
         lastOutput = 0;
         arm.set(0);
     }
-    
 }
