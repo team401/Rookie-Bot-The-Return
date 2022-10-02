@@ -16,8 +16,6 @@ public class ClimbSubsystem extends SubsystemBase {
     private final RelativeEncoder encoder = motor.getEncoder();
 
     private int lastOutput = 0; //Marks the last commanded direction of movement
-    
-    private double setpoint;
 
     public ClimbSubsystem() {
         motor.getEncoder().setPosition(0);

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -24,6 +25,11 @@ public class DriveSubsystem extends SubsystemBase {
         //frontLeft.setInverted(true);
         // backLeft.setInverted(true);
         
+        frontLeft.setNeutralMode(NeutralMode.Brake);
+        backLeft.setNeutralMode(NeutralMode.Brake);
+        frontRight.setNeutralMode(NeutralMode.Brake);
+        backRight.setNeutralMode(NeutralMode.Brake);
+        
     }
 
     /**
@@ -34,7 +40,12 @@ public class DriveSubsystem extends SubsystemBase {
      * @param forward forward speed
      * @param rotation rotation value
      */
-    public void drive(double forward, double rotation){
+    public void arcadeDrive(double forward, double rotation){
         drive.arcadeDrive(forward, -rotation);
     }
+
+    public void tankDrive(double left, double right) {
+        drive.tankDrive(left, right);
+    }
+
 }

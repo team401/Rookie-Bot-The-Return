@@ -8,13 +8,21 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ClimbConstants;
+import frc.robot.commands.Auto;
+import frc.robot.commands.Climb;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.OperatorControl;
+import frc.robot.commands.Auto.AutoType;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -39,6 +47,9 @@ public class RobotContainer {
     private final Joystick leftStick = new Joystick(0);
     private final Joystick rightStick = new Joystick(1);
     private final XboxController gamepad = new XboxController(2);
+
+    private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -50,6 +61,7 @@ public class RobotContainer {
         
         // Configure the button bindings
         configureButtonBindings();
+        configureAutoPaths();
     }
 
     /**
@@ -84,15 +96,39 @@ public class RobotContainer {
         new JoystickButton(gamepad, Button.kStart.value)
             .whenPressed(() -> arm.reset(), arm);
 
-        // Raise Climber
-        /*new POVButton(gamepad, 0)
-            .whenPressed(climb::climbUp)
-            .whenReleased(climb::climbStop);
+        // Jog Arm Down
+        new Trigger(() -> (gamepad.getRawAxis(1) > 0.5))
+            .whenActive(() -> arm.setPercent(-0.1), arm)
+            .whenInactive(() -> arm.setPercent(0), arm);
+
+        // Jog Arm Up
+        new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
+            .whenActive(() -> arm.setPercent(0.2), arm)
+            .whenInactive(() -> arm.setPercent(0), arm);
 
         // Raise Climber
-        new POVButton(gamepad, 180)
-            .whenPressed(climb::climbDown)
-            .whenReleased(climb::climbStop);*/
+        new POVButton(gamepad, 90)
+            .whenPressed(new Climb(climb, ClimbConstants.maxPosition));
+
+        // Raise Climber
+        new POVButton(gamepad, 270)
+            .whenPressed(new Climb(climb, ClimbConstants.minPosition));
+    }
+
+    private void configureAutoPaths() {
+        autoChooser.addOption("Shoot", 
+            new Auto(drive, intake, AutoType.Shoot));
+        autoChooser.addOption("DriveShoot", 
+            new Auto(drive, intake, AutoType.DriveShoot));
+        autoChooser.addOption("Drive",
+            new Auto(drive, intake, AutoType.Drive));
+        autoChooser.addOption("Nothing",
+            new Auto(drive, intake, AutoType.Nothing));
+        
+        autoChooser.setDefaultOption("-DriveShoot-", 
+            new Auto(drive, intake, AutoType.DriveShoot));
+
+        SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
     /**
@@ -100,8 +136,7 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    //public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        // return m_autoCommand
-    //}
+    public Command getAutonomousCommand() {
+         return autoChooser.getSelected();
+    }
 }

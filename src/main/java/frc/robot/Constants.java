@@ -21,6 +21,8 @@ public final class Constants {
         public static final int backLeftID = 2;
         public static final int frontRightID = 3;
         public static final int backRightID = 4;
+
+        public static final double autoDrivePercent = 0.5;
     }
 
     public static final class ArmConstants {
@@ -29,7 +31,7 @@ public final class Constants {
 
         public static final double controllerTolerance = 0.01;
 
-        public static final double shooterSpeed = 1;
+        public static final double shooterSpeed = -1;
         public static final double intakeSpeed = 0.5;
 
         public static final double maxVelocity = 0.6;
@@ -39,7 +41,7 @@ public final class Constants {
 
         public static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0);
 
-        public static final double loweredPosition = 0.01;
+        public static final double loweredPosition = -0.02;
         public static final double raisedPosition = 0.31;
     }
 

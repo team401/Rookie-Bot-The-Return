@@ -19,9 +19,9 @@ public class OperatorControl extends CommandBase {
 
         addRequirements(drive);
     }
-
+    
     @Override
     public void execute() {
-        drive.drive(forward.getAsDouble(), rotate.getAsDouble());
+        drive.arcadeDrive(forward.getAsDouble(), rotate.getAsDouble() - 0.2);
     }
 }

@@ -29,21 +29,13 @@ public class ArmSubsystem extends SubsystemBase {
         motor.setInverted(false);
         motor.setIdleMode(IdleMode.kCoast);
 
-        //encoder.setPosition(ArmConstants.raisedPosition); //Arm should start out raised
-        encoder.setPosition(0);
         encoder.setPositionConversionFactor(ArmConstants.armGearRatio);
-
-        SmartDashboard.putNumber("V", 0);
+        encoder.setPosition(ArmConstants.raisedPosition); //Arm should start out raised
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putNumber("ArmPosition", encoder.getPosition());
-
-        //SmartDashboard.putNumber("Pos", );
-
-        //double v = SmartDashboard.getNumber("V", 0);
-        //motor.setVoltage(Math.abs(v) > 2 ? 0 : v);
     }
 
     public void reset() {
