@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -61,7 +59,8 @@ public class RobotContainer {
         
         // Configure the button bindings
         configureButtonBindings();
-        configureAutoPaths();
+        // Configure the autonomous routines
+        configureAutoRoutines();
     }
 
     /**
@@ -74,48 +73,63 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        //Intake
+        // Intake
+        // Runs the intake motor when pressed and stops when released
         new JoystickButton(gamepad, Button.kB.value)
             .whenPressed(intake::intake)
             .whenReleased(intake::stop);
 
         // Shoot
+        // Runs the intake motor in reverse to shoot the ball out and stops when released
         new JoystickButton(gamepad, Button.kY.value)
             .whenPressed(intake::shoot)
             .whenReleased(intake::stop);
         
         // Raise Intake
+        // Moves the arm to the raised position when pressed
         new POVButton(gamepad, 0)
             .whenPressed(new MoveArm(arm, ArmConstants.raisedPosition));
 
         // Lower Intake
+        // Moves the arm to the lowered position when pressed
         new POVButton(gamepad, 180)
             .whenPressed(new MoveArm(arm, ArmConstants.loweredPosition));
 
+        // Raise Climber
+        // Moves the climber to the highest position when pressed
+        new POVButton(gamepad, 90)
+            .whenPressed(new Climb(climb, ClimbConstants.maxPosition));
+
+        // Raise Climber
+        // Move sthe climber to the lowest position when pressed
+        new POVButton(gamepad, 270)
+            .whenPressed(new Climb(climb, ClimbConstants.minPosition));
+
         // Reset Arm
+        // Reset arm position to zero
         new JoystickButton(gamepad, Button.kStart.value)
-            .whenPressed(() -> arm.reset(), arm);
+        .whenPressed(() -> arm.reset(), arm);
 
         // Jog Arm Down
+        // Manually moves the rotation arm down at 10%
         new Trigger(() -> (gamepad.getRawAxis(1) > 0.5))
             .whenActive(() -> arm.setPercent(-0.1), arm)
             .whenInactive(() -> arm.setPercent(0), arm);
 
         // Jog Arm Up
+        // Manually moves the rotation arm up at 20%
         new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
             .whenActive(() -> arm.setPercent(0.2), arm)
             .whenInactive(() -> arm.setPercent(0), arm);
-
-        // Raise Climber
-        new POVButton(gamepad, 90)
-            .whenPressed(new Climb(climb, ClimbConstants.maxPosition));
-
-        // Raise Climber
-        new POVButton(gamepad, 270)
-            .whenPressed(new Climb(climb, ClimbConstants.minPosition));
+        
     }
 
-    private void configureAutoPaths() {
+    /**
+     * Configures autonomous routines and adds paths to the SmartDashboard autonomous selector
+     * NOTE: call this method in the constructor so that all autonomous routines 
+     are loaded on robot bootup instead of on autonomous enable
+     */
+    private void configureAutoRoutines() {
         autoChooser.addOption("Shoot", 
             new Auto(drive, intake, AutoType.Shoot));
         autoChooser.addOption("DriveShoot", 

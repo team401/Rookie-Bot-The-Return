@@ -9,21 +9,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DrivetrainConstants;
 
+/**
+ * Subsystem that handles the differential drivetrain
+ */
 public class DriveSubsystem extends SubsystemBase {
     private final WPI_VictorSPX frontLeft = new WPI_VictorSPX(DrivetrainConstants.frontLeftID);
     private final WPI_VictorSPX frontRight = new WPI_VictorSPX(DrivetrainConstants.frontRightID);
     private final WPI_VictorSPX backLeft =  new WPI_VictorSPX(DrivetrainConstants.backLeftID);
     private final WPI_VictorSPX backRight = new WPI_VictorSPX(DrivetrainConstants.backRightID);
 
+    // Motor controller groups that represent the left and right gearboxes
     private final MotorControllerGroup left = new MotorControllerGroup(frontLeft, backLeft);
     private final MotorControllerGroup right = new MotorControllerGroup(frontRight, backRight);
 
+    // Differential drivetrain object
     private final DifferentialDrive drive = new DifferentialDrive(left, right);
 
     public DriveSubsystem() {
         left.setInverted(true);
-        //frontLeft.setInverted(true);
-        // backLeft.setInverted(true);
         
         frontLeft.setNeutralMode(NeutralMode.Brake);
         backLeft.setNeutralMode(NeutralMode.Brake);
@@ -33,9 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     /**
-     * Drives the robot as specified.
-     * 
-     * This Javadoc? Unecessary?? What could you possibly be talking about?
+     * Drives the robot using arcade drive
      * 
      * @param forward forward speed
      * @param rotation rotation value
@@ -44,6 +45,12 @@ public class DriveSubsystem extends SubsystemBase {
         drive.arcadeDrive(forward, -rotation);
     }
 
+    /**
+     * Drives the robot using arcade drive
+     * 
+     * @param left left side power
+     * @param right right side power
+     */
     public void tankDrive(double left, double right) {
         drive.tankDrive(left, right);
     }

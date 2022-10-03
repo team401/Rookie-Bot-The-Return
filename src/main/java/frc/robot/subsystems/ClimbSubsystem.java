@@ -1,43 +1,38 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * A subsystem that handles the climbing arm
+ */
 public class ClimbSubsystem extends SubsystemBase {
 
     private final CANSparkMax motor = new CANSparkMax(ClimbConstants.climbArmID, MotorType.kBrushless);
     private final RelativeEncoder encoder = motor.getEncoder();
 
-    private int lastOutput = 0; //Marks the last commanded direction of movement
-
     public ClimbSubsystem() {
+        // Resets the motor encoder so that it's at a position 0 (assumes that the robot boots up with the climbing arms all the way down)
         motor.getEncoder().setPosition(0);
     }
 
     @Override
     public void periodic() {
-
-        // If we go out of bounds and are still trying to move, stop
-        if (encoder.getPosition() > ClimbConstants.maxPosition && lastOutput > 0)
-            motor.set(0);
-        else if (encoder.getPosition() < ClimbConstants.minPosition && lastOutput < 0)
-            motor.set(0);
-
-        SmartDashboard.putNumber("Climber location", encoder.getPosition());
-    }
-
-    public double getPosition() {
-        return encoder.getPosition();
+        SmartDashboard.putNumber("Climber Position", getPosition());
     }
 
     public void setPercent(double percent) {
         motor.set(percent);
+    }
+
+    /**
+     * @return the position of the climbing motor in [UNITS]
+     */
+    public double getPosition() {
+        return encoder.getPosition();
     }
 }
