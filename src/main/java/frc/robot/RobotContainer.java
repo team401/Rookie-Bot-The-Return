@@ -98,12 +98,16 @@ public class RobotContainer {
         // Raise Climber
         // Moves the climber to the highest position when pressed
         new POVButton(gamepad, 90)
-            .whenPressed(new Climb(climb, ClimbConstants.maxPosition));
+            .whenPressed(() -> climb.setPercent(0.1))
+            .whenReleased(() -> climb.setPercent(0));
+            //.whenPressed(new Climb(climb, ClimbConstants.maxPosition));
 
         // Raise Climber
         // Move sthe climber to the lowest position when pressed
         new POVButton(gamepad, 270)
-            .whenPressed(new Climb(climb, ClimbConstants.minPosition));
+            .whenPressed(() -> climb.setPercent(-0.1))
+            .whenReleased(() -> climb.setPercent(0));
+            //.whenPressed(new Climb(climb, ClimbConstants.minPosition));
 
         // Reset Arm
         // Reset arm position to zero

@@ -46,10 +46,8 @@ public final class Constants {
     }
 
     public static final class ClimbConstants {
-        public static final int leftClimbID = 6;
-        public static final int rightClimbID = 7;
 
-        public static final int climbArmID = 6;
+        public static final int climbArmID = 52;
         
         public static final double climbVolts = 4;
 
