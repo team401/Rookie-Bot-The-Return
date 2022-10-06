@@ -18,6 +18,7 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem() {
         // Resets the motor encoder so that it's at a position 0 (assumes that the robot boots up with the climbing arms all the way down)
         motor.getEncoder().setPosition(0);
+        motor.setInverted(true);
     }
 
     @Override

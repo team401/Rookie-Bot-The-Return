@@ -48,8 +48,6 @@ public final class Constants {
     public static final class ClimbConstants {
 
         public static final int climbArmID = 52;
-        
-        public static final double climbVolts = 4;
 
         public static final double maxPosition = 100;
         public static final double minPosition = 5;

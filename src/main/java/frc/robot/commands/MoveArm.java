@@ -2,10 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Command that moves the arm to a rotational goal
@@ -38,5 +38,13 @@ public class MoveArm extends ProfiledPIDCommand {
         getController().setTolerance(0.01);
 
     }
+
+    @Override
+    public boolean isFinished() 
+    {
+        SmartDashboard.putNumber("armTime",System.currentTimeMillis());
+        return false;
+    }
+
 
 }

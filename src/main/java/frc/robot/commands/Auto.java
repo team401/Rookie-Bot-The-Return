@@ -60,10 +60,8 @@ public class Auto extends SequentialCommandGroup {
                 );
 
             // Do nothing
-            case Nothing:
             default:
-                addCommands(
-                );
+                addCommands();
         }
     }
 }
