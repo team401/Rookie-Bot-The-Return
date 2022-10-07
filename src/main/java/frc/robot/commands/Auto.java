@@ -16,51 +16,51 @@ import frc.robot.subsystems.IntakeSubsystem;
  */
 public class Auto extends SequentialCommandGroup {
 
-    /**
-     * Different autonoumous routines to run
-     */
-    public enum AutoType {
-        Shoot, DriveShoot, Drive, Nothing
-    }
+	/**
+	 * Different autonoumous routines to run
+	 */
+	public enum AutoType {
+		Shoot, DriveShoot, Drive, Nothing
+	}
 
-    private final DriveSubsystem drive;
-    private final IntakeSubsystem intake;
+	private final DriveSubsystem drive;
+	private final IntakeSubsystem intake;
 
-    private final double driveTimeS = 1.5;
+	private final double driveTimeS = 1.5;
 
-    /**
-     * @param drive    Drivetrain subsystem
-     * @param intake   Intake subsystem
-     * @param autoType Which routine to run
-     */
-    public Auto(DriveSubsystem drive, IntakeSubsystem intake, AutoType autoType) {
-        this.drive = drive;
-        this.intake = intake;
+	/**
+	 * @param drive	Drivetrain subsystem
+	 * @param intake   Intake subsystem
+	 * @param autoType Which routine to run
+	 */
+	public Auto(DriveSubsystem drive, IntakeSubsystem intake, AutoType autoType) {
+		this.drive = drive;
+		this.intake = intake;
 
-        switch (autoType) {
-            // Start up against hub
-            // Score two balls
-            case Shoot:
-                addCommands(
-                        new InstantCommand(intake::shoot, intake),
-                        new WaitCommand(driveTimeS),
-                        new InstantCommand(intake::stop, intake));
-                // Start up against hub
-                // Score two balls then back up across the line
-            case DriveShoot:
-                addCommands(
-                        new InstantCommand(intake::shoot, intake),
-                        new WaitCommand(driveTimeS),
-                        new InstantCommand(intake::stop, intake),
-                        new DriveTime(drive, driveTimeS));
-                // Back up across the line
-            case Drive:
-                addCommands(
-                        new DriveTime(drive, driveTimeS));
+		switch (autoType) {
+			// Start up against hub
+			// Score two balls
+			case Shoot:
+				addCommands(
+						new InstantCommand(intake::shoot, intake),
+						new WaitCommand(driveTimeS),
+						new InstantCommand(intake::stop, intake));
+				// Start up against hub
+				// Score two balls then back up across the line
+			case DriveShoot:
+				addCommands(
+						new InstantCommand(intake::shoot, intake),
+						new WaitCommand(driveTimeS),
+						new InstantCommand(intake::stop, intake),
+						new DriveTime(drive, driveTimeS));
+				// Back up across the line
+			case Drive:
+				addCommands(
+						new DriveTime(drive, driveTimeS));
 
-                // Do nothing
-            default:
-                addCommands();
-        }
-    }
+				// Do nothing
+			default:
+				addCommands();
+		}
+	}
 }

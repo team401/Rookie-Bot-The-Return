@@ -10,48 +10,48 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class DriveTime extends CommandBase {
 
-    private final DriveSubsystem drive;
-    private final double timeS;
-    private final Timer timer = new Timer();
+	private final DriveSubsystem drive;
+	private final double timeS;
+	private final Timer timer = new Timer();
 
-    /**
-     * @param drive the drive subsystem
-     * @param timeS the amount of time in seconds that the robot will drive
-     *              forward/backward
-     */
-    public DriveTime(DriveSubsystem drive, double timeS) {
-        // Sets the local variables to the parameters passed in
-        this.drive = drive;
-        this.timeS = timeS;
+	/**
+	 * @param drive the drive subsystem
+	 * @param timeS the amount of time in seconds that the robot will drive
+	 *			  forward/backward
+	 */
+	public DriveTime(DriveSubsystem drive, double timeS) {
+		// Sets the local variables to the parameters passed in
+		this.drive = drive;
+		this.timeS = timeS;
 
-        // Adds the drive subsystem to the requirements so only one command using drive
-        // can run at a time
-        addRequirements(drive);
-    }
+		// Adds the drive subsystem to the requirements so only one command using drive
+		// can run at a time
+		addRequirements(drive);
+	}
 
-    @Override
-    public void initialize() {
-        // Start the timer at 0s
-        timer.reset();
-        timer.start();
-    }
+	@Override
+	public void initialize() {
+		// Start the timer at 0s
+		timer.reset();
+		timer.start();
+	}
 
-    @Override
-    public void execute() {
-        // Run the drive directly backwards
-        drive.arcadeDrive(DrivetrainConstants.autoDrivePercent, 0);
-    }
+	@Override
+	public void execute() {
+		// Run the drive directly backwards
+		drive.arcadeDrive(DrivetrainConstants.autoDrivePercent, 0);
+	}
 
-    @Override
-    public boolean isFinished() {
-        // returns true if {timeS} has passed since the start of the command
-        return timer.hasElapsed(timeS);
-    }
+	@Override
+	public boolean isFinished() {
+		// returns true if {timeS} has passed since the start of the command
+		return timer.hasElapsed(timeS);
+	}
 
-    @Override
-    public void end(boolean isFinished) {
-        // Stop the drive when the command ends
-        drive.arcadeDrive(0, 0);
-    }
+	@Override
+	public void end(boolean isFinished) {
+		// Stop the drive when the command ends
+		drive.arcadeDrive(0, 0);
+	}
 
 }

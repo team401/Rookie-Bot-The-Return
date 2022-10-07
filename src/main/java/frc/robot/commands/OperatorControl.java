@@ -9,28 +9,29 @@ import frc.robot.subsystems.DriveSubsystem;
  * the drive subsystem
  */
 public class OperatorControl extends CommandBase {
-    private DriveSubsystem drive;
+	private DriveSubsystem drive;
 
-    // Objects that contain the values for the joysticks
-    private DoubleSupplier forward;
-    private DoubleSupplier rotate;
+	// Objects that contain the values for the joysticks
+	private DoubleSupplier forward;
+	private DoubleSupplier rotate;
 
-    /**
-     * @param subsystem the drive subsystem
-     * @param fwd       the double supplier for forward direction
-     * @param rot       the double supplier for rotation
-     */
-    public OperatorControl(DriveSubsystem subsystem, DoubleSupplier fwd, DoubleSupplier rot) {
-        // Sets the local variables to the parameters passed in
-        drive = subsystem;
-        forward = fwd;
-        rotate = rot;
+	/**
+	 * @param subsystem the drive subsystem
+	 * @param fwd	   the double supplier for forward direction
+	 * @param rot	   the double supplier for rotation
+	 */
+	public OperatorControl(DriveSubsystem subsystem, DoubleSupplier fwd, DoubleSupplier rot) {
+		// Sets the local variables to the parameters passed in
+		drive = subsystem;
+		forward = fwd;
+		rotate = rot;
 
-        // Adds the drive subsystem to the requirements so only one command using drive
-        // can run at a time
-        addRequirements(drive);
-    }
+		// Adds the drive subsystem to the requirements so only one command using drive
+		// can run at a time
+		addRequirements(drive);
+	}
 
+<<<<<<< HEAD
     @Override
     public void execute() {
         // Run the drive (as a percent) forward/backward and rotate (as a percent)
@@ -39,4 +40,13 @@ public class OperatorControl extends CommandBase {
         double rot = 0.8 * rotate.getAsDouble();
         drive.arcadeDrive(forward.getAsDouble(), Math.copySign(rot*rot, rot));
     }
+=======
+	@Override
+	public void execute() {
+		// Run the drive (as a percent) forward/backward and rotate (as a percent)
+		// -0.2 is to account for drivetrain drift (when trying to drive straight robot
+		// drifted to the right)
+		drive.arcadeDrive(forward.getAsDouble(), 0.8 * rotate.getAsDouble() - 0.15);
+	}
+>>>>>>> 2b3ad3df3642014aa2f24df7171eecf61b02ad48
 }

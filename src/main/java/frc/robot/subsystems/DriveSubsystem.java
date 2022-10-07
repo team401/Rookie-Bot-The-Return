@@ -13,46 +13,46 @@ import frc.robot.Constants.DrivetrainConstants;
  * Subsystem that handles the differential drivetrain
  */
 public class DriveSubsystem extends SubsystemBase {
-    private final WPI_VictorSPX frontLeft = new WPI_VictorSPX(DrivetrainConstants.frontLeftID);
-    private final WPI_VictorSPX frontRight = new WPI_VictorSPX(DrivetrainConstants.frontRightID);
-    private final WPI_VictorSPX backLeft = new WPI_VictorSPX(DrivetrainConstants.backLeftID);
-    private final WPI_VictorSPX backRight = new WPI_VictorSPX(DrivetrainConstants.backRightID);
+	private final WPI_VictorSPX frontLeft = new WPI_VictorSPX(DrivetrainConstants.frontLeftID);
+	private final WPI_VictorSPX frontRight = new WPI_VictorSPX(DrivetrainConstants.frontRightID);
+	private final WPI_VictorSPX backLeft = new WPI_VictorSPX(DrivetrainConstants.backLeftID);
+	private final WPI_VictorSPX backRight = new WPI_VictorSPX(DrivetrainConstants.backRightID);
 
-    // Motor controller groups that represent the left and right gearboxes
-    private final MotorControllerGroup left = new MotorControllerGroup(frontLeft, backLeft);
-    private final MotorControllerGroup right = new MotorControllerGroup(frontRight, backRight);
+	// Motor controller groups that represent the left and right gearboxes
+	private final MotorControllerGroup left = new MotorControllerGroup(frontLeft, backLeft);
+	private final MotorControllerGroup right = new MotorControllerGroup(frontRight, backRight);
 
-    // Differential drivetrain object
-    private final DifferentialDrive drive = new DifferentialDrive(left, right);
+	// Differential drivetrain object
+	private final DifferentialDrive drive = new DifferentialDrive(left, right);
 
-    public DriveSubsystem() {
-        left.setInverted(true);
+	public DriveSubsystem() {
+		left.setInverted(true);
 
-        frontLeft.setNeutralMode(NeutralMode.Brake);
-        backLeft.setNeutralMode(NeutralMode.Brake);
-        frontRight.setNeutralMode(NeutralMode.Brake);
-        backRight.setNeutralMode(NeutralMode.Brake);
+		frontLeft.setNeutralMode(NeutralMode.Brake);
+		backLeft.setNeutralMode(NeutralMode.Brake);
+		frontRight.setNeutralMode(NeutralMode.Brake);
+		backRight.setNeutralMode(NeutralMode.Brake);
 
-    }
+	}
 
-    /**
-     * Drives the robot using arcade drive
-     * 
-     * @param forward  forward speed
-     * @param rotation rotation value
-     */
-    public void arcadeDrive(double forward, double rotation) {
-        drive.arcadeDrive(forward, -rotation);
-    }
+	/**
+	 * Drives the robot using arcade drive
+	 * 
+	 * @param forward  forward speed
+	 * @param rotation rotation value
+	 */
+	public void arcadeDrive(double forward, double rotation) {
+		drive.arcadeDrive(forward, -rotation);
+	}
 
-    /**
-     * Drives the robot using arcade drive
-     * 
-     * @param left  left side power
-     * @param right right side power
-     */
-    public void tankDrive(double left, double right) {
-        drive.tankDrive(left, right);
-    }
+	/**
+	 * Drives the robot using arcade drive
+	 * 
+	 * @param left  left side power
+	 * @param right right side power
+	 */
+	public void tankDrive(double left, double right) {
+		drive.tankDrive(left, right);
+	}
 
 }
