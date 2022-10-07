@@ -15,7 +15,6 @@ import frc.robot.Constants.ArmConstants;
  */
 public class ArmSubsystem extends SubsystemBase {
 
-<<<<<<< HEAD
     private final CANSparkMax motor = new CANSparkMax(ArmConstants.armMotorID, MotorType.kBrushless);
     private final RelativeEncoder encoder = motor.getEncoder();
 
@@ -56,46 +55,4 @@ public class ArmSubsystem extends SubsystemBase {
     public double getVelocity() {
         return encoder.getVelocity();
     }
-=======
-	private final CANSparkMax motor = new CANSparkMax(ArmConstants.armMotorID, MotorType.kBrushless);
-	private final RelativeEncoder encoder = motor.getEncoder();
-
-	public ArmSubsystem() {
-		motor.setInverted(false);
-		motor.setIdleMode(IdleMode.kCoast);
-
-		encoder.setPositionConversionFactor(ArmConstants.armGearRatio);
-		encoder.setPosition(ArmConstants.raisedPosition); // Arm should start out raised
-	}
-
-	@Override
-	public void periodic() {
-		SmartDashboard.putNumber("Arm Val", getPosition());
-	}
-
-	/**
-	 * Resets the position of the encoder
-	 */
-	public void reset() {
-		encoder.setPosition(0);
-	}
-
-	public void setPercent(double output) {
-		motor.set(output);
-	}
-
-	/**
-	 * @return position of the arm in rotations (0 is parallel to the ground)
-	 */
-	public double getPosition() {
-		return encoder.getPosition();
-	}
-
-	/**
-	 * @return velocity of the arm in rotations per second
-	 */
-	public double getVelocity() {
-		return encoder.getVelocity();
-	}
->>>>>>> 2b3ad3df3642014aa2f24df7171eecf61b02ad48
 }

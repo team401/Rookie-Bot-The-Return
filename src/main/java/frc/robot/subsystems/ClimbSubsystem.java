@@ -19,7 +19,6 @@ public class ClimbSubsystem extends SubsystemBase {
 
 	private final TalonFX motor = new TalonFX(ClimbConstants.climbArmID);
 
-<<<<<<< HEAD
     public ClimbSubsystem() {
         // Resets the motor encoder so that it's at a position 0 (assumes that the robot
         // boots up with the climbing arms all the way down)
@@ -27,15 +26,6 @@ public class ClimbSubsystem extends SubsystemBase {
         motor.setNeutralMode(NeutralMode.Coast);
         // motor.setInverted(true);
     }
-=======
-	public ClimbSubsystem() {
-		// Resets the motor encoder so that it's at a position 0 (assumes that the robot
-		// boots up with the climbing arms all the way down)
-		motor.setSelectedSensorPosition(0);
-		motor.setNeutralMode(NeutralMode.Brake);
-		// motor.setInverted(true);
-	}
->>>>>>> 2b3ad3df3642014aa2f24df7171eecf61b02ad48
 
 	@Override
 	public void periodic() {
