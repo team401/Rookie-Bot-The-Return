@@ -20,41 +20,41 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class DrivetrainConstants {
-        public static final int frontLeftID = 1;
-        public static final int backLeftID = 2;
-        public static final int frontRightID = 3;
-        public static final int backRightID = 4;
+	public static final class DrivetrainConstants {
+		public static final int frontLeftID = 1;
+		public static final int backLeftID = 2;
+		public static final int frontRightID = 3;
+		public static final int backRightID = 4;
 
-        public static final double autoDrivePercent = 0.6;
-    }
+		public static final double autoDrivePercent = 0.6;
+	}
 
-    public static final class ArmConstants {
-        public static final int armMotorID = 1;
-        public static final int intakeMotorID = 32;
+	public static final class ArmConstants {
+		public static final int armMotorID = 1;
+		public static final int intakeMotorID = 32;
 
-        public static final double controllerTolerance = 0.01;
+		public static final double controllerTolerance = 0.01;
 
-        public static final double shooterSpeed = -1;
-        public static final double intakeSpeed = 0.5;
+		public static final double shooterSpeed = -1;
+		public static final double intakeSpeed = 0.5;
 
-        public static final double maxVelocity = 0.6;
-        public static final double maxAccel = 0.3;
+		public static final double maxVelocity = 0.6;
+		public static final double maxAccel = 0.3;
 
-        public static final double armGearRatio = 1.0 / 75;
+		public static final double armGearRatio = 1.0 / 75;
 
-        public static final double loweredPosition = -0.02;
-        public static final double raisedPosition = 0.31;
-    }
+		public static final double loweredPosition = -0.02;
+		public static final double raisedPosition = 0.31;
+	}
 
-    public static final class ClimbConstants {
+	public static final class ClimbConstants {
 
-        public static final int climbArmID = 11;
+		public static final int climbArmID = 11;
 
-        public static final double maxPosition = 56000;
-        public static final double minPosition = 1000;
+		public static final double maxPosition = 56000;
+		public static final double minPosition = 1000;
 
-        public static final double maxVelocity = 1;
-        public static final double maxAccel = maxVelocity * 2;
-    }
+		public static final double maxVelocity = 1;
+		public static final double maxAccel = maxVelocity * 2;
+	}
 }

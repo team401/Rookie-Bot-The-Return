@@ -12,41 +12,41 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MoveArm extends ProfiledPIDCommand {
 
-    /**
-     * @param arm  Arm subsystem
-     * @param goal Goal for the arm in rotations of the arm, 0 is all the way down
-     *             (horizontal to the ground)
-     */
-    public MoveArm(ArmSubsystem arm, double goal) {
+	/**
+	 * @param arm  Arm subsystem
+	 * @param goal Goal for the arm in rotations of the arm, 0 is all the way down
+	 *			 (horizontal to the ground)
+	 */
+	public MoveArm(ArmSubsystem arm, double goal) {
 
-        super(
-                new ProfiledPIDController(
-                        25, 0, 0,
-                        new TrapezoidProfile.Constraints(
-                                ArmConstants.maxVelocity,
-                                ArmConstants.maxAccel)),
-                // Close loop on heading
-                arm::getPosition,
-                // Set reference to target
-                goal,
-                // Pipe output to turn robot
-                (output, setpoint) -> {
-                    arm.setPercent(output);
-                    SmartDashboard.putNumber("Setpoint", setpoint.position);
-                },
-                // Require the drive
-                arm);
+		super(
+				new ProfiledPIDController(
+						25, 0, 0,
+						new TrapezoidProfile.Constraints(
+								ArmConstants.maxVelocity,
+								ArmConstants.maxAccel)),
+				// Close loop on heading
+				arm::getPosition,
+				// Set reference to target
+				goal,
+				// Pipe output to turn robot
+				(output, setpoint) -> {
+					arm.setPercent(output);
+					SmartDashboard.putNumber("Setpoint", setpoint.position);
+				},
+				// Require the drive
+				arm);
 
-        SmartDashboard.putNumber("Goal", goal);
+		SmartDashboard.putNumber("Goal", goal);
 
-        getController().setTolerance(0.01);
+		getController().setTolerance(0.01);
 
-    }
+	}
 
-    @Override
-    public boolean isFinished() {
-        SmartDashboard.putNumber("armTime", System.currentTimeMillis());
-        return false;
-    }
+	@Override
+	public boolean isFinished() {
+		SmartDashboard.putNumber("armTime", System.currentTimeMillis());
+		return false;
+	}
 
 }
