@@ -22,7 +22,7 @@ public final class Constants {
         public static final int frontRightID = 3;
         public static final int backRightID = 4;
 
-        public static final double autoDrivePercent = 0.5;
+        public static final double autoDrivePercent = 0.6;
     }
 
     public static final class ArmConstants {
@@ -39,18 +39,16 @@ public final class Constants {
 
         public static final double armGearRatio = 1.0 / 75;
 
-        public static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0);
-
         public static final double loweredPosition = -0.02;
         public static final double raisedPosition = 0.31;
     }
 
     public static final class ClimbConstants {
 
-        public static final int climbArmID = 52;
+        public static final int climbArmID = 11;
 
-        public static final double maxPosition = 100;
-        public static final double minPosition = 5;
+        public static final double maxPosition = 56000;
+        public static final double minPosition = 1000;
 
         public static final double maxVelocity = 1;
         public static final double maxAccel = maxVelocity * 2;

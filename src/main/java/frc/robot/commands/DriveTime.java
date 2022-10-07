@@ -37,7 +37,7 @@ public class DriveTime extends CommandBase {
     @Override
     public void execute() {
         // Run the drive directly backwards
-        drive.arcadeDrive(-DrivetrainConstants.autoDrivePercent, 0);
+        drive.arcadeDrive(DrivetrainConstants.autoDrivePercent, 0);
     }
     
     @Override

@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -24,7 +26,7 @@ public class Auto extends SequentialCommandGroup {
     private final DriveSubsystem drive;
     private final IntakeSubsystem intake;
 
-    private final double driveTimeS = 0.5;
+    private final double driveTimeS = 1.5;
     
     /**
      * @param drive Drivetrain subsystem
@@ -34,7 +36,7 @@ public class Auto extends SequentialCommandGroup {
     public Auto(DriveSubsystem drive, IntakeSubsystem intake, AutoType autoType) {
         this.drive = drive;
         this.intake = intake;
-        
+
         switch (autoType) {
             // Start up against hub
             // Score two balls

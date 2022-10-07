@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -98,16 +99,14 @@ public class RobotContainer {
         // Raise Climber
         // Moves the climber to the highest position when pressed
         new POVButton(gamepad, 90)
-            .whenPressed(() -> climb.setPercent(0.1))
-            .whenReleased(() -> climb.setPercent(0));
-            //.whenPressed(new Climb(climb, ClimbConstants.maxPosition));
+            .whileHeld(() -> climb.moveUp())
+            .whenReleased(() -> climb.stop());
 
-        // Raise Climber
+        // Lower Climber
         // Move sthe climber to the lowest position when pressed
         new POVButton(gamepad, 270)
-            .whenPressed(() -> climb.setPercent(-0.1))
-            .whenReleased(() -> climb.setPercent(0));
-            //.whenPressed(new Climb(climb, ClimbConstants.minPosition));
+            .whileHeld(() -> climb.moveDown())
+            .whenReleased(() -> climb.stop());
 
         // Reset Arm
         // Reset arm position to zero
@@ -125,6 +124,10 @@ public class RobotContainer {
         new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
             .whenActive(() -> arm.setPercent(0.2), arm)
             .whenInactive(() -> arm.setPercent(0), arm);
+
+        // Jog Climber Down
+        new JoystickButton(gamepad, Button.kBack.value)
+            .whenPressed(() -> climb.reset());
         
     }
 
@@ -155,6 +158,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-         return autoChooser.getSelected();
+        return autoChooser.getSelected();
     }
 }

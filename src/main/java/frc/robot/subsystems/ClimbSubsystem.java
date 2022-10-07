@@ -3,8 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /**
@@ -12,28 +17,56 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class ClimbSubsystem extends SubsystemBase {
 
-    private final CANSparkMax motor = new CANSparkMax(ClimbConstants.climbArmID, MotorType.kBrushless);
-    private final RelativeEncoder encoder = motor.getEncoder();
+    private final TalonFX motor = new TalonFX(ClimbConstants.climbArmID);   
 
     public ClimbSubsystem() {
         // Resets the motor encoder so that it's at a position 0 (assumes that the robot boots up with the climbing arms all the way down)
-        motor.getEncoder().setPosition(0);
-        motor.setInverted(true);
+        motor.setSelectedSensorPosition(0);
+        motor.setNeutralMode(NeutralMode.Brake);
+        //motor.setInverted(true);
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Climber Position", getPosition());
+
+        SmartDashboard.putNumber("Climber Draw", motor.getStatorCurrent());
     }
 
     public void setPercent(double percent) {
-        motor.set(percent);
+        motor.set(ControlMode.PercentOutput, percent);
     }
 
     /**
      * @return the position of the climbing motor in [UNITS]
      */
     public double getPosition() {
-        return encoder.getPosition();
+        return motor.getSelectedSensorPosition();
     }
+
+    /**
+     * sets the position of the motor encoder to 0
+     */
+    public void reset() {
+        motor.setSelectedSensorPosition(0);
+    }
+
+    public void moveUp() {
+        if (getPosition() < ClimbConstants.maxPosition)
+            setPercent(0.5);
+        else
+            setPercent(0);
+    }
+
+    public void moveDown() {
+        if (getPosition() > ClimbConstants.minPosition)
+            setPercent(-0.5);
+        else
+            setPercent(0);
+    }
+
+    public void stop() {
+        setPercent(0);
+    }
+
 }
