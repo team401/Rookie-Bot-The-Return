@@ -18,12 +18,12 @@ public class Climb extends CommandBase {
 
     private final ClimbSubsystem climb;
     private final double goal;
-    private final ProfiledPIDController controller = 
-        new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(ClimbConstants.maxVelocity, ClimbConstants.maxAccel));
+    private final ProfiledPIDController controller = new ProfiledPIDController(0, 0, 0,
+            new TrapezoidProfile.Constraints(ClimbConstants.maxVelocity, ClimbConstants.maxAccel));
 
     /**
      * @param climb Climb subsystem
-     * @param goal Goal for the arm in default encoder units
+     * @param goal  Goal for the arm in default encoder units
      */
     public Climb(ClimbSubsystem climb, double goal) {
         this.climb = climb;
@@ -31,10 +31,11 @@ public class Climb extends CommandBase {
 
         addRequirements(climb);
     }
-    
+
     @Override
     public void execute() {
-        // Calculate output from measurement to goal, then output as percent to the motor
+        // Calculate output from measurement to goal, then output as percent to the
+        // motor
         double output = controller.calculate(climb.getPosition(), goal);
         climb.setPercent(output);
     }

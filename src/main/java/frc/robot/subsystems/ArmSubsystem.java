@@ -23,7 +23,7 @@ public class ArmSubsystem extends SubsystemBase {
         motor.setIdleMode(IdleMode.kCoast);
 
         encoder.setPositionConversionFactor(ArmConstants.armGearRatio);
-        encoder.setPosition(ArmConstants.raisedPosition); //Arm should start out raised
+        encoder.setPosition(ArmConstants.raisedPosition); // Arm should start out raised
     }
 
     @Override

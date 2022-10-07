@@ -15,7 +15,7 @@ import frc.robot.Constants.DrivetrainConstants;
 public class DriveSubsystem extends SubsystemBase {
     private final WPI_VictorSPX frontLeft = new WPI_VictorSPX(DrivetrainConstants.frontLeftID);
     private final WPI_VictorSPX frontRight = new WPI_VictorSPX(DrivetrainConstants.frontRightID);
-    private final WPI_VictorSPX backLeft =  new WPI_VictorSPX(DrivetrainConstants.backLeftID);
+    private final WPI_VictorSPX backLeft = new WPI_VictorSPX(DrivetrainConstants.backLeftID);
     private final WPI_VictorSPX backRight = new WPI_VictorSPX(DrivetrainConstants.backRightID);
 
     // Motor controller groups that represent the left and right gearboxes
@@ -27,28 +27,28 @@ public class DriveSubsystem extends SubsystemBase {
 
     public DriveSubsystem() {
         left.setInverted(true);
-        
+
         frontLeft.setNeutralMode(NeutralMode.Brake);
         backLeft.setNeutralMode(NeutralMode.Brake);
         frontRight.setNeutralMode(NeutralMode.Brake);
         backRight.setNeutralMode(NeutralMode.Brake);
-        
+
     }
 
     /**
      * Drives the robot using arcade drive
      * 
-     * @param forward forward speed
+     * @param forward  forward speed
      * @param rotation rotation value
      */
-    public void arcadeDrive(double forward, double rotation){
+    public void arcadeDrive(double forward, double rotation) {
         drive.arcadeDrive(forward, -rotation);
     }
 
     /**
      * Drives the robot using arcade drive
      * 
-     * @param left left side power
+     * @param left  left side power
      * @param right right side power
      */
     public void tankDrive(double left, double right) {

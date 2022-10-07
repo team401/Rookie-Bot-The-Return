@@ -27,10 +27,10 @@ public class Auto extends SequentialCommandGroup {
     private final IntakeSubsystem intake;
 
     private final double driveTimeS = 1.5;
-    
+
     /**
-     * @param drive Drivetrain subsystem
-     * @param intake Intake subsystem
+     * @param drive    Drivetrain subsystem
+     * @param intake   Intake subsystem
      * @param autoType Which routine to run
      */
     public Auto(DriveSubsystem drive, IntakeSubsystem intake, AutoType autoType) {
@@ -42,26 +42,23 @@ public class Auto extends SequentialCommandGroup {
             // Score two balls
             case Shoot:
                 addCommands(
-                    new InstantCommand(intake::shoot, intake),
-                    new WaitCommand(driveTimeS),
-                    new InstantCommand(intake::stop, intake)
-                );
-            // Start up against hub
-            // Score two balls then back up across the line
+                        new InstantCommand(intake::shoot, intake),
+                        new WaitCommand(driveTimeS),
+                        new InstantCommand(intake::stop, intake));
+                // Start up against hub
+                // Score two balls then back up across the line
             case DriveShoot:
                 addCommands(
-                    new InstantCommand(intake::shoot, intake),
-                    new WaitCommand(driveTimeS),
-                    new InstantCommand(intake::stop, intake),
-                    new DriveTime(drive, driveTimeS)
-                );
-            // Back up across the line
+                        new InstantCommand(intake::shoot, intake),
+                        new WaitCommand(driveTimeS),
+                        new InstantCommand(intake::stop, intake),
+                        new DriveTime(drive, driveTimeS));
+                // Back up across the line
             case Drive:
                 addCommands(
-                    new DriveTime(drive, driveTimeS)
-                );
+                        new DriveTime(drive, driveTimeS));
 
-            // Do nothing
+                // Do nothing
             default:
                 addCommands();
         }

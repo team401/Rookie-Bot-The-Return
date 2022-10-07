@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
- * A command that allows the joysticks to control the movement of the robot via the drive subsystem
+ * A command that allows the joysticks to control the movement of the robot via
+ * the drive subsystem
  */
 public class OperatorControl extends CommandBase {
     private DriveSubsystem drive;
@@ -16,23 +17,25 @@ public class OperatorControl extends CommandBase {
 
     /**
      * @param subsystem the drive subsystem
-     * @param fwd the double supplier for forward direction
-     * @param rot the double supplier for rotation
+     * @param fwd       the double supplier for forward direction
+     * @param rot       the double supplier for rotation
      */
-    public OperatorControl(DriveSubsystem subsystem, DoubleSupplier fwd, DoubleSupplier rot){
+    public OperatorControl(DriveSubsystem subsystem, DoubleSupplier fwd, DoubleSupplier rot) {
         // Sets the local variables to the parameters passed in
         drive = subsystem;
         forward = fwd;
         rotate = rot;
 
-        // Adds the drive subsystem to the requirements so only one command using drive can run at a time
+        // Adds the drive subsystem to the requirements so only one command using drive
+        // can run at a time
         addRequirements(drive);
     }
-    
+
     @Override
     public void execute() {
         // Run the drive (as a percent) forward/backward and rotate (as a percent)
-        // -0.2 is to account for drivetrain drift (when trying to drive straight robot drifted to the right)
+        // -0.2 is to account for drivetrain drift (when trying to drive straight robot
+        // drifted to the right)
         drive.arcadeDrive(forward.getAsDouble(), 0.8 * rotate.getAsDouble() - 0.15);
     }
 }

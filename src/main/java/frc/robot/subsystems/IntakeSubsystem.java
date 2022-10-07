@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -16,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intake() {
         intakeMotor.set(ControlMode.PercentOutput, ArmConstants.intakeSpeed);
     }
-    
+
     public void shoot() {
         SmartDashboard.putNumber("Time", System.currentTimeMillis());
         intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);

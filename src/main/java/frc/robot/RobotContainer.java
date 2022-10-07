@@ -57,7 +57,7 @@ public class RobotContainer {
         drive.setDefaultCommand(new OperatorControl(drive,
                 () -> leftStick.getRawAxis(1),
                 () -> rightStick.getRawAxis(0)));
-        
+
         // Configure the button bindings
         configureButtonBindings();
         // Configure the autonomous routines
@@ -77,77 +77,79 @@ public class RobotContainer {
         // Intake
         // Runs the intake motor when pressed and stops when released
         new JoystickButton(gamepad, Button.kB.value)
-            .whenPressed(intake::intake)
-            .whenReleased(intake::stop);
+                .whenPressed(intake::intake)
+                .whenReleased(intake::stop);
 
         // Shoot
-        // Runs the intake motor in reverse to shoot the ball out and stops when released
+        // Runs the intake motor in reverse to shoot the ball out and stops when
+        // released
         new JoystickButton(gamepad, Button.kY.value)
-            .whenPressed(intake::shoot)
-            .whenReleased(intake::stop);
-        
+                .whenPressed(intake::shoot)
+                .whenReleased(intake::stop);
+
         // Raise Intake
         // Moves the arm to the raised position when pressed
         new POVButton(gamepad, 0)
-            .whenPressed(new MoveArm(arm, ArmConstants.raisedPosition));
+                .whenPressed(new MoveArm(arm, ArmConstants.raisedPosition));
 
         // Lower Intake
         // Moves the arm to the lowered position when pressed
         new POVButton(gamepad, 180)
-            .whenPressed(new MoveArm(arm, ArmConstants.loweredPosition));
+                .whenPressed(new MoveArm(arm, ArmConstants.loweredPosition));
 
         // Raise Climber
         // Moves the climber to the highest position when pressed
-        new POVButton(gamepad, 90)
-            .whileHeld(() -> climb.moveUp())
-            .whenReleased(() -> climb.stop());
+        new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
+                .whenActive(() -> climb.moveUp(), arm)
+                .whenInactive(() -> climb.stop(), arm);
 
         // Lower Climber
         // Move sthe climber to the lowest position when pressed
-        new POVButton(gamepad, 270)
-            .whileHeld(() -> climb.moveDown())
-            .whenReleased(() -> climb.stop());
+        new Trigger(() -> (gamepad.getRawAxis(1) > 0.5))
+                .whenActive(() -> climb.moveDown(), arm)
+                .whenInactive(() -> climb.stop(), arm);
 
         // Reset Arm
         // Reset arm position to zero
         new JoystickButton(gamepad, Button.kStart.value)
-        .whenPressed(() -> arm.reset(), arm);
+                .whenPressed(() -> arm.reset(), arm);
 
         // Jog Arm Down
         // Manually moves the rotation arm down at 10%
-        new Trigger(() -> (gamepad.getRawAxis(1) > 0.5))
-            .whenActive(() -> arm.setPercent(-0.1), arm)
-            .whenInactive(() -> arm.setPercent(0), arm);
+        new Trigger(() -> (gamepad.getRawAxis(5) > 0.5))
+                .whenActive(() -> arm.setPercent(-0.1), arm)
+                .whenInactive(() -> arm.setPercent(0), arm);
 
         // Jog Arm Up
         // Manually moves the rotation arm up at 20%
-        new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
-            .whenActive(() -> arm.setPercent(0.2), arm)
-            .whenInactive(() -> arm.setPercent(0), arm);
+        new Trigger(() -> (gamepad.getRawAxis(5) < -0.5))
+                .whenActive(() -> arm.setPercent(0.2), arm)
+                .whenInactive(() -> arm.setPercent(0), arm);
 
         // Jog Climber Down
         new JoystickButton(gamepad, Button.kBack.value)
-            .whenPressed(() -> climb.reset());
-        
+                .whenPressed(() -> climb.reset());
+
     }
 
     /**
-     * Configures autonomous routines and adds paths to the SmartDashboard autonomous selector
-     * NOTE: call this method in the constructor so that all autonomous routines 
-     are loaded on robot bootup instead of on autonomous enable
+     * Configures autonomous routines and adds paths to the SmartDashboard
+     * autonomous selector
+     * NOTE: call this method in the constructor so that all autonomous routines
+     * are loaded on robot bootup instead of on autonomous enable
      */
     private void configureAutoRoutines() {
-        autoChooser.addOption("Shoot", 
-            new Auto(drive, intake, AutoType.Shoot));
-        autoChooser.addOption("DriveShoot", 
-            new Auto(drive, intake, AutoType.DriveShoot));
+        autoChooser.addOption("Shoot",
+                new Auto(drive, intake, AutoType.Shoot));
+        autoChooser.addOption("DriveShoot",
+                new Auto(drive, intake, AutoType.DriveShoot));
         autoChooser.addOption("Drive",
-            new Auto(drive, intake, AutoType.Drive));
+                new Auto(drive, intake, AutoType.Drive));
         autoChooser.addOption("Nothing",
-            new Auto(drive, intake, AutoType.Nothing));
-        
-        autoChooser.setDefaultOption("-DriveShoot-", 
-            new Auto(drive, intake, AutoType.DriveShoot));
+                new Auto(drive, intake, AutoType.Nothing));
+
+        autoChooser.setDefaultOption("-DriveShoot-",
+                new Auto(drive, intake, AutoType.DriveShoot));
 
         SmartDashboard.putData("Auto Mode", autoChooser);
     }

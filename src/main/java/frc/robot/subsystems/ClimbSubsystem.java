@@ -17,13 +17,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class ClimbSubsystem extends SubsystemBase {
 
-    private final TalonFX motor = new TalonFX(ClimbConstants.climbArmID);   
+    private final TalonFX motor = new TalonFX(ClimbConstants.climbArmID);
 
     public ClimbSubsystem() {
-        // Resets the motor encoder so that it's at a position 0 (assumes that the robot boots up with the climbing arms all the way down)
+        // Resets the motor encoder so that it's at a position 0 (assumes that the robot
+        // boots up with the climbing arms all the way down)
         motor.setSelectedSensorPosition(0);
         motor.setNeutralMode(NeutralMode.Brake);
-        //motor.setInverted(true);
+        // motor.setInverted(true);
     }
 
     @Override
