@@ -36,6 +36,7 @@ public class OperatorControl extends CommandBase {
         // Run the drive (as a percent) forward/backward and rotate (as a percent)
         // -0.2 is to account for drivetrain drift (when trying to drive straight robot
         // drifted to the right)
-        drive.arcadeDrive(forward.getAsDouble(), 0.8 * rotate.getAsDouble() - 0.15);
+        double rot = 0.8 * rotate.getAsDouble();
+        drive.arcadeDrive(forward.getAsDouble(), Math.copySign(rot*rot, rot));
     }
 }

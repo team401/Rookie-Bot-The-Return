@@ -100,13 +100,13 @@ public class RobotContainer {
         // Raise Climber
         // Moves the climber to the highest position when pressed
         new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
-                .whenActive(() -> climb.moveUp(), arm)
+                .whenActive(new RunCommand(() -> climb.moveUp(), arm))
                 .whenInactive(() -> climb.stop(), arm);
 
         // Lower Climber
         // Move sthe climber to the lowest position when pressed
         new Trigger(() -> (gamepad.getRawAxis(1) > 0.5))
-                .whenActive(() -> climb.moveDown(), arm)
+                .whenActive(new RunCommand(() -> climb.moveDown(), arm))
                 .whenInactive(() -> climb.stop(), arm);
 
         // Reset Arm
@@ -126,7 +126,7 @@ public class RobotContainer {
                 .whenActive(() -> arm.setPercent(0.2), arm)
                 .whenInactive(() -> arm.setPercent(0), arm);
 
-        // Jog Climber Down
+        // Reset Climber
         new JoystickButton(gamepad, Button.kBack.value)
                 .whenPressed(() -> climb.reset());
 

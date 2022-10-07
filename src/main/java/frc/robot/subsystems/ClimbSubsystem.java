@@ -23,7 +23,7 @@ public class ClimbSubsystem extends SubsystemBase {
         // Resets the motor encoder so that it's at a position 0 (assumes that the robot
         // boots up with the climbing arms all the way down)
         motor.setSelectedSensorPosition(0);
-        motor.setNeutralMode(NeutralMode.Brake);
+        motor.setNeutralMode(NeutralMode.Coast);
         // motor.setInverted(true);
     }
 
