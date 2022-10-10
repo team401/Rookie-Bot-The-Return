@@ -12,18 +12,20 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+
 /**
  * A subsystem that handles the climbing arm
  */
 public class ClimbSubsystem extends SubsystemBase {
-
+	
 	private final TalonFX motor = new TalonFX(ClimbConstants.climbArmID);
-
+	boolean confirmed = false;
+	
     public ClimbSubsystem() {
         // Resets the motor encoder so that it's at a position 0 (assumes that the robot
         // boots up with the climbing arms all the way down)
         motor.setSelectedSensorPosition(0);
-        motor.setNeutralMode(NeutralMode.Coast);
+        motor.setNeutralMode(NeutralMode.Brake);
         // motor.setInverted(true);
     }
 
@@ -32,6 +34,8 @@ public class ClimbSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("Climber Position", getPosition());
 
 		SmartDashboard.putNumber("Climber Draw", motor.getStatorCurrent());
+
+		SmartDashboard.putBoolean("Climber Confirmed", confirmed);
 	}
 
 	public void setPercent(double percent) {
@@ -52,6 +56,16 @@ public class ClimbSubsystem extends SubsystemBase {
 		motor.setSelectedSensorPosition(0);
 	}
 
+	/**
+	 * Confirm that climber is ready to be locked in
+	 */
+	public void confirmPullDown() {
+		confirmed = !confirmed;
+	}
+
+	/**
+	 * Move climber telescope up
+	 */
 	public void moveUp() {
 		if (getPosition() < ClimbConstants.maxPosition)
 			setPercent(0.5);
@@ -59,13 +73,20 @@ public class ClimbSubsystem extends SubsystemBase {
 			setPercent(0);
 	}
 
+	/**
+	 * Move climber telescope down
+	 */
 	public void moveDown() {
-		if (getPosition() > ClimbConstants.minPosition)
+		if ((getPosition() > ClimbConstants.minUnconfirmedPosition && !confirmed) 
+				|| (getPosition() > ClimbConstants.minPosition && confirmed))
 			setPercent(-0.5);
-		else
+		else 
 			setPercent(0);
 	}
 
+	/**
+	 * Hold climber telescope in place
+	 */
 	public void stop() {
 		setPercent(0);
 	}

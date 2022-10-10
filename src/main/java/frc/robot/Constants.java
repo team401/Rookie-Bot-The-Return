@@ -51,7 +51,8 @@ public final class Constants {
 
 		public static final int climbArmID = 11;
 
-        public static final double maxPosition = 48700;
+        public static final double maxPosition = 46000;
+		public static final double minUnconfirmedPosition = 24000;
         public static final double minPosition = 2200;
 
 		public static final double maxVelocity = 1;

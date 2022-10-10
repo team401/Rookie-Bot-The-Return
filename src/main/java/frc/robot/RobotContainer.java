@@ -130,6 +130,10 @@ public class RobotContainer {
         new JoystickButton(gamepad, Button.kBack.value)
                 .whenPressed(() -> climb.reset());
 
+        // Confirm climber is ready to be locked
+        new JoystickButton(gamepad, Button.kLeftStick.value) 
+                .whenPressed(climb::confirmPullDown);
+
     }
 
     /**
