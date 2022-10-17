@@ -51,7 +51,9 @@ public final class Constants {
 
 		public static final int climbArmID = 11;
 
-        public static final double maxPosition = 46000;
+        // 5ft 6in is 53000
+        public static final double offset = 13450;
+        public static final double maxPosition = 44000;
 		public static final double minUnconfirmedPosition = 24000;
         public static final double minPosition = 2200;
 
