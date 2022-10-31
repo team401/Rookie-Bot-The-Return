@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -25,6 +26,9 @@ public class DriveSubsystem extends SubsystemBase {
 	// Differential drivetrain object
 	private final DifferentialDrive drive = new DifferentialDrive(left, right);
 
+	private final PigeonIMU pigeon = new PigeonIMU(DrivetrainConstants.pigeonID);
+	private final double angleOffset;
+
 	public DriveSubsystem() {
 		left.setInverted(true);
 
@@ -33,6 +37,13 @@ public class DriveSubsystem extends SubsystemBase {
 		frontRight.setNeutralMode(NeutralMode.Brake);
 		backRight.setNeutralMode(NeutralMode.Brake);
 
+		angleOffset = pigeon.getYaw();
+
+	}
+
+	public double GetDriveAngle()
+	{
+		return pigeon.getYaw()-angleOffset;
 	}
 
 	/**

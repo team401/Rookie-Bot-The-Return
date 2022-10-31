@@ -10,25 +10,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Command that moves the arm to a rotational goal
  */
-public class MoveArm extends ProfiledPIDCommand {
+public class SpeedArmLower extends ProfiledPIDCommand {
+
+	private final ArmSubsystem arm;
 
 	/**
 	 * @param arm  Arm subsystem
-	 * @param goal Goal for the arm in rotations of the arm, 0 is all the way down
-	 *			 (horizontal to the ground)
 	 */
-	public MoveArm(ArmSubsystem arm, double goal) {
+	public SpeedArmLower(ArmSubsystem arm) {
 
 		super(
 				new ProfiledPIDController(
 						25, 0, 0,
 						new TrapezoidProfile.Constraints(
-								ArmConstants.maxVelocity,
-								ArmConstants.maxAccel)),
+								ArmConstants.maxVelocity*2,
+								ArmConstants.maxAccel*2)),
 				// Close loop on heading
 				arm::getPosition,
 				// Set reference to target
-				goal,
+				ArmConstants.loweredPosition,
 				// Pipe output to turn robot
 				(output, setpoint) -> {
 					arm.setPercent(output);
@@ -37,7 +37,7 @@ public class MoveArm extends ProfiledPIDCommand {
 				// Require the drive
 				arm);
 
-		SmartDashboard.putNumber("Goal", goal);
+		this.arm = arm;
 
 		getController().setTolerance(0.01);
 
@@ -45,7 +45,7 @@ public class MoveArm extends ProfiledPIDCommand {
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return getController().atGoal();
 	}
 
 }

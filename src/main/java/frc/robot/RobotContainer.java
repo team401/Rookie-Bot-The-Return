@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.commands.Auto;
-import frc.robot.commands.Climb;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.OperatorControl;
 import frc.robot.commands.Auto.AutoType;
@@ -143,17 +142,21 @@ public class RobotContainer {
      * are loaded on robot bootup instead of on autonomous enable
      */
     private void configureAutoRoutines() {
-        autoChooser.addOption("Shoot",
-                new Auto(drive, intake, AutoType.Shoot));
-        autoChooser.addOption("DriveShoot",
-                new Auto(drive, intake, AutoType.DriveShoot));
-        autoChooser.addOption("Drive",
-                new Auto(drive, intake, AutoType.Drive));
         autoChooser.addOption("Nothing",
-                new Auto(drive, intake, AutoType.Nothing));
+                new Auto(drive, intake, arm, AutoType.Nothing));
+        autoChooser.addOption("Taxi",
+                new Auto(drive, intake, arm, AutoType.Taxi));
+        autoChooser.addOption("OneBall",
+                new Auto(drive, intake, arm, AutoType.OneBall));
+        autoChooser.addOption("TwoBall",
+                new Auto(drive, intake, arm, AutoType.TwoBall));
+        autoChooser.addOption("Troll",
+                new Auto(drive, intake, arm, AutoType.Troll));
+        autoChooser.addOption("SPIN",
+                new Auto(drive, intake, arm, AutoType.SPIN));
 
-        autoChooser.setDefaultOption("-DriveShoot-",
-                new Auto(drive, intake, AutoType.DriveShoot));
+        autoChooser.setDefaultOption("-TwoBall-",
+                new Auto(drive, intake, arm, AutoType.TwoBall));
 
         SmartDashboard.putData("Auto Mode", autoChooser);
     }

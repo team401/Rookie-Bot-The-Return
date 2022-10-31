@@ -26,6 +26,8 @@ public final class Constants {
 		public static final int frontRightID = 3;
 		public static final int backRightID = 4;
 
+		public static final int pigeonID = 20;
+
 		public static final double autoDrivePercent = 0.6;
 	}
 
@@ -36,7 +38,7 @@ public final class Constants {
 		public static final double controllerTolerance = 0.01;
 
 		public static final double shooterSpeed = -1;
-		public static final double intakeSpeed = 0.5;
+		public static final double intakeSpeed = 0.8;
 
 		public static final double maxVelocity = 0.6;
 		public static final double maxAccel = 0.3;

@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -36,7 +38,14 @@ public class OperatorControl extends CommandBase {
         // Run the drive (as a percent) forward/backward and rotate (as a percent)
         // -0.2 is to account for drivetrain drift (when trying to drive straight robot
         // drifted to the right)
-        double rot = 0.85 * rotate.getAsDouble();
-        drive.arcadeDrive(forward.getAsDouble(), Math.copySign(rot*rot, rot));
+		// both start moving at 0.25
+		double fwd = forward.getAsDouble();
+
+		double rot = rotate.getAsDouble();
+		//rot = Math.copySign(rot*rot, rot);
+
+		SmartDashboard.putNumber("Forward", fwd);
+		SmartDashboard.putNumber("Rotation", rot);
+        drive.arcadeDrive(fwd, rot);
     }
 }
