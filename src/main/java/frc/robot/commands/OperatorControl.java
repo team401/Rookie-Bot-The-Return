@@ -42,7 +42,8 @@ public class OperatorControl extends CommandBase {
 		double fwd = forward.getAsDouble();
 
 		double rot = rotate.getAsDouble();
-		//rot = Math.copySign(rot*rot, rot);
+		// change scalar here
+		rot *= 1;
 
 		SmartDashboard.putNumber("Forward", fwd);
 		SmartDashboard.putNumber("Rotation", rot);

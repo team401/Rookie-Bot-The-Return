@@ -38,7 +38,7 @@ public final class Constants {
 		public static final double controllerTolerance = 0.01;
 
 		public static final double shooterSpeed = -1;
-		public static final double intakeSpeed = 0.8;
+		public static final double intakeSpeed = 0.6;
 
 		public static final double maxVelocity = 0.6;
 		public static final double maxAccel = 0.3;
@@ -54,7 +54,7 @@ public final class Constants {
 		public static final int climbArmID = 11;
 
         // 5ft 6in is 53000
-        public static final double offset = 13450;
+        public static final double offset = 0;//13450;
         public static final double maxPosition = 44000;
 		public static final double minUnconfirmedPosition = 24000;
         public static final double minPosition = 2200;

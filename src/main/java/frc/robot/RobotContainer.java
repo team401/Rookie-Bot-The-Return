@@ -152,8 +152,6 @@ public class RobotContainer {
                 new Auto(drive, intake, arm, AutoType.TwoBall));
         autoChooser.addOption("Troll",
                 new Auto(drive, intake, arm, AutoType.Troll));
-        autoChooser.addOption("SPIN",
-                new Auto(drive, intake, arm, AutoType.SPIN));
 
         autoChooser.setDefaultOption("-TwoBall-",
                 new Auto(drive, intake, arm, AutoType.TwoBall));

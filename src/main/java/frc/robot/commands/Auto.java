@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -27,9 +28,7 @@ public class Auto extends SequentialCommandGroup {
 		// Starts on the edge of the tarmac facing a ball, collects ball then drives back to spit both into hub
 		TwoBall,
 		// Starts facing the first ball in 5 ball for enemy alliance, shoots own cargo that knocks enemy cargo away
-		Troll,
-
-		SPIN
+		Troll
 	}
 
 	private final DriveSubsystem drive;
@@ -58,7 +57,7 @@ public class Auto extends SequentialCommandGroup {
 					new InstantCommand(intake::shoot, intake),
 					new WaitCommand(1),
 					new InstantCommand(intake::stop, intake),
-					new DriveTime(drive, 1.5, false)
+					new DriveTime(drive, 3, false)
 				);
 				break;
 			case TwoBall:
@@ -69,7 +68,8 @@ public class Auto extends SequentialCommandGroup {
 					new InstantCommand(intake::stop, intake),
 					new MoveArm(arm, ArmConstants.raisedPosition).withTimeout(2),
 					new DriveTime(drive, 1.5, false),
-					new RotateDrive(drive, 180),
+					new RotateDrive(drive, 180).withTimeout(2),
+					new PrintCommand("jALKDFJL:KJDASLKFJlkADF"),
 					new DriveTime(drive, 2, true),
 					new InstantCommand(intake::shoot, intake),
 					new WaitCommand(3),
@@ -83,12 +83,8 @@ public class Auto extends SequentialCommandGroup {
 					new WaitCommand(2),
 					new InstantCommand(intake::stop, intake),
 					new MoveArm(arm, ArmConstants.raisedPosition).withTimeout(2),
-					new RotateDrive(drive, 270).withTimeout(3),
-					new DriveTime(drive, 1.5, false)
-				);
-			case SPIN:
-				addCommands(
-					new RotateDrive(drive, 180)
+					new RotateDrive(drive, 90).withTimeout(1.5),
+					new DriveTime(drive, 1.5, true)
 				);
 			default:
 				addCommands();
