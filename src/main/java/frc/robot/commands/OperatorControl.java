@@ -40,10 +40,11 @@ public class OperatorControl extends CommandBase {
         // drifted to the right)
 		// both start moving at 0.25
 		double fwd = forward.getAsDouble();
+        fwd *= .8;
 
 		double rot = rotate.getAsDouble();
 		// change scalar here
-		rot *= 1;
+		rot *= .5;
 
 		SmartDashboard.putNumber("Forward", fwd);
 		SmartDashboard.putNumber("Rotation", rot);

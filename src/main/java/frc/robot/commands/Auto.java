@@ -57,6 +57,7 @@ public class Auto extends SequentialCommandGroup {
 					new InstantCommand(intake::shoot, intake),
 					new WaitCommand(1),
 					new InstantCommand(intake::stop, intake),
+                    new WaitCommand(5),
 					new DriveTime(drive, 3, false)
 				);
 				break;

@@ -120,6 +120,7 @@ public class RobotContainer {
                 .whenInactive(() -> arm.setPercent(0), arm);
 
         // Jog Arm Up
+        
         // Manually moves the rotation arm up at 20%
         new Trigger(() -> (gamepad.getRawAxis(5) < -0.5))
                 .whenActive(() -> arm.setPercent(0.2), arm)
