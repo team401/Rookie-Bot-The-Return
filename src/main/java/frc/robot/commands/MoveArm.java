@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MoveArm extends ProfiledPIDCommand {
 
+	private final ArmSubsystem arm;
+
 	/**
 	 * @param arm  Arm subsystem
 	 * @param goal Goal for the arm in rotations of the arm, 0 is all the way down
@@ -21,7 +23,7 @@ public class MoveArm extends ProfiledPIDCommand {
 
 		super(
 				new ProfiledPIDController(
-						25, 0, 0,
+					25, 0, 0,
 						new TrapezoidProfile.Constraints(
 								ArmConstants.maxVelocity,
 								ArmConstants.maxAccel)),
@@ -37,7 +39,7 @@ public class MoveArm extends ProfiledPIDCommand {
 				// Require the drive
 				arm);
 
-		SmartDashboard.putNumber("Goal", goal);
+		this.arm = arm;
 
 		getController().setTolerance(0.01);
 
@@ -45,7 +47,12 @@ public class MoveArm extends ProfiledPIDCommand {
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return SmartDashboard.getNumber("KidSafe(1=yes)", 0) == 1;
+	}
+
+	@Override
+	public void end(boolean isInterrupted) {
+		arm.setPercent(0);
 	}
 
 }

@@ -6,6 +6,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DrivetrainConstants;
@@ -38,6 +39,8 @@ public class DriveSubsystem extends SubsystemBase {
 		backRight.setNeutralMode(NeutralMode.Brake);
 
 		angleOffset = pigeon.getYaw();
+
+		SmartDashboard.putNumber("KidSafe(1=yes)", 0);
 
 	}
 

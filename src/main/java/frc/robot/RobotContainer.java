@@ -42,11 +42,7 @@ public class RobotContainer {
     private final IntakeSubsystem intake = new IntakeSubsystem();
     private final ClimbSubsystem climb = new ClimbSubsystem();
 
-    private final Joystick leftStick = new Joystick(0);
-    private final Joystick rightStick = new Joystick(1);
-    private final XboxController gamepad = new XboxController(2);
-
-    private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+    private final XboxController gamepad = new XboxController(0);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -54,13 +50,11 @@ public class RobotContainer {
     public RobotContainer() {
         // Set up default commands
         drive.setDefaultCommand(new OperatorControl(drive,
-                () -> leftStick.getRawAxis(1),
-                () -> rightStick.getRawAxis(0)));
+                () -> gamepad.getRawAxis(1),
+                () -> gamepad.getRawAxis(4)));
 
         // Configure the button bindings
         configureButtonBindings();
-        // Configure the autonomous routines
-        configureAutoRoutines();
     }
 
     /**
@@ -96,68 +90,11 @@ public class RobotContainer {
         new POVButton(gamepad, 180)
                 .whenPressed(new MoveArm(arm, ArmConstants.loweredPosition));
 
-        // Raise Climber
-        // Moves the climber to the highest position when pressed
-        new Trigger(() -> (gamepad.getRawAxis(1) < -0.5))
-                .whenActive(new RunCommand(() -> climb.moveUp(), arm))
-                .whenInactive(() -> climb.stop(), arm);
-
-        // Lower Climber
-        // Move sthe climber to the lowest position when pressed
-        new Trigger(() -> (gamepad.getRawAxis(1) > 0.5))
-                .whenActive(new RunCommand(() -> climb.moveDown(), arm))
-                .whenInactive(() -> climb.stop(), arm);
-
         // Reset Arm
         // Reset arm position to zero
         new JoystickButton(gamepad, Button.kStart.value)
                 .whenPressed(() -> arm.reset(), arm);
 
-        // Jog Arm Down
-        // Manually moves the rotation arm down at 10%
-        new Trigger(() -> (gamepad.getRawAxis(5) > 0.5))
-                .whenActive(() -> arm.setPercent(-0.1), arm)
-                .whenInactive(() -> arm.setPercent(0), arm);
-
-        // Jog Arm Up
-        
-        // Manually moves the rotation arm up at 20%
-        new Trigger(() -> (gamepad.getRawAxis(5) < -0.5))
-                .whenActive(() -> arm.setPercent(0.2), arm)
-                .whenInactive(() -> arm.setPercent(0), arm);
-
-        // Reset Climber
-        new JoystickButton(gamepad, Button.kBack.value)
-                .whenPressed(() -> climb.reset());
-
-        // Confirm climber is ready to be locked
-        new JoystickButton(gamepad, Button.kLeftStick.value) 
-                .whenPressed(climb::confirmPullDown);
-
-    }
-
-    /**
-     * Configures autonomous routines and adds paths to the SmartDashboard
-     * autonomous selector
-     * NOTE: call this method in the constructor so that all autonomous routines
-     * are loaded on robot bootup instead of on autonomous enable
-     */
-    private void configureAutoRoutines() {
-        autoChooser.addOption("Nothing",
-                new Auto(drive, intake, arm, AutoType.Nothing));
-        autoChooser.addOption("Taxi",
-                new Auto(drive, intake, arm, AutoType.Taxi));
-        autoChooser.addOption("OneBall",
-                new Auto(drive, intake, arm, AutoType.OneBall));
-        autoChooser.addOption("TwoBall",
-                new Auto(drive, intake, arm, AutoType.TwoBall));
-        autoChooser.addOption("Troll",
-                new Auto(drive, intake, arm, AutoType.Troll));
-
-        autoChooser.setDefaultOption("-TwoBall-",
-                new Auto(drive, intake, arm, AutoType.TwoBall));
-
-        SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
     /**
@@ -166,6 +103,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        return null;
     }
 }

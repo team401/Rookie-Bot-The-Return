@@ -35,7 +35,8 @@ public class ArmSubsystem extends SubsystemBase {
      * Resets the position of the encoder
      */
     public void reset() {
-        encoder.setPosition(0);
+        if (SmartDashboard.getNumber("KidSafe(1=yes)", 0) != 1)
+            encoder.setPosition(0);
     }
 
     public void setPercent(double output) {

@@ -37,11 +37,11 @@ public final class Constants {
 
 		public static final double controllerTolerance = 0.01;
 
-		public static final double shooterSpeed = -1;
+		public static final double shooterSpeed = -0.8;
 		public static final double intakeSpeed = 0.6;
 
-		public static final double maxVelocity = 0.6;
-		public static final double maxAccel = 0.3;
+		public static final double maxVelocity = 0.3;
+		public static final double maxAccel = 0.15;
 
 		public static final double armGearRatio = 1.0 / 75;
 

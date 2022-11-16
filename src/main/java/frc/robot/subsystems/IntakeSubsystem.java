@@ -15,12 +15,13 @@ public class IntakeSubsystem extends SubsystemBase {
 	private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(ArmConstants.intakeMotorID);
 
 	public void intake() {
-		intakeMotor.set(ControlMode.PercentOutput, ArmConstants.intakeSpeed);
+		if (SmartDashboard.getNumber("KidSafe(1=yes)", 0) != 1)
+			intakeMotor.set(ControlMode.PercentOutput, ArmConstants.intakeSpeed);
 	}
 
 	public void shoot() {
-		SmartDashboard.putNumber("Time", System.currentTimeMillis());
-		intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
+		if (SmartDashboard.getNumber("KidSafe(1=yes)", 0) != 1)
+			intakeMotor.set(ControlMode.PercentOutput, ArmConstants.shooterSpeed);
 	}
 
 	public void stop() {
